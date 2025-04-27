@@ -2,13 +2,14 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import {DEFAULT_HEIGHT, DEFAULT_WIDTH} from "../constants.ts";
+import * as constants from "../shared/constants";
+import * as handlers from "./ipc/handlers";
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: DEFAULT_WIDTH,
-    height: DEFAULT_HEIGHT,
+    width: constants.DEFAULT_WIDTH,
+    height: constants.DEFAULT_HEIGHT,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -50,8 +51,8 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // Ipc handlers
+  ipcMain.handle(constants.API.ping, handlers.ping);
 
   createWindow()
 

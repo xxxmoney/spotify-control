@@ -1,5 +1,10 @@
 <script setup lang="ts">
-const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+import * as constants from "../../shared/constants";
+
+const handle = async () => {
+  const result = await window.api![constants.API.ping]() as string;
+  console.log(result);
+};
 </script>
 
 <template>
@@ -10,6 +15,6 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   </div>
   <p class="tip">Dummy tip text</p>
   <div class="actions">
-      <button class="action" @click="ipcHandle">Dummy action</button>
+      <button class="action" @click="handle">Dummy action</button>
   </div>
 </template>
