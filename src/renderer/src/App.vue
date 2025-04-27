@@ -4,7 +4,7 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 
 <template>
   <img alt="logo" class="logo" src="./assets/electron.svg" />
-  <div class="creator">Created by xxxmoney</div>
+  <div class="creator">Created by <code>xxxmoney</code></div>
   <div class="text">
     Dummy text
   </div>
