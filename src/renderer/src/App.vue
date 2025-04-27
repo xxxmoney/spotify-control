@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import * as constants from "../../shared/constants";
+import {useElectronAPI} from "@renderer/composables/api.comp";
+
+const api = useElectronAPI();
 
 const handle = async () => {
-  const result = await window.api![constants.API.ping]() as string;
+  const result = await api.ping();
   console.log(result);
 };
 </script>
