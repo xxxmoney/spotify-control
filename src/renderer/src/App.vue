@@ -10,6 +10,8 @@ const devices = ref([] as HID.Device[]);
 const getDevices = async () => {
   devices.value = [];
   devices.value = await api.getDevices();
+
+  console.log(devices.value);
 };
 
 const showDevice = async (device: HID.Device) => {
@@ -42,9 +44,4 @@ onMounted(async () => {
       </button>
     </div>
   </div>
-<!--  <div class="actions">-->
-<!--      <button class="action" @click="handle">-->
-<!--        Get devices-->
-<!--      </button>-->
-<!--  </div>-->
 </template>
