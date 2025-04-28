@@ -15,7 +15,9 @@ const handle = async () => {
   <div class="text">
     Dummy text
   </div>
-  <p class="tip">Dummy tip text</p>
+  <p class="tip">
+    Dummy tip text
+  </p>
   <div class="actions">
       <button class="action" @click="handle">Dummy action</button>
   </div>
