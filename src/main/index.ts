@@ -4,6 +4,8 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import * as constants from "../shared/constants";
 import * as handlers from "./ipc/handlers";
+import {nameof} from "../shared/helpers";
+import {IElectronAPI} from "../shared/types";
 
 function createWindow(): void {
   // Create the browser window.
@@ -52,7 +54,7 @@ app.whenReady().then(() => {
   })
 
   // Ipc handlers
-  ipcMain.handle(constants.API.ping, handlers.ping);
+  ipcMain.handle(nameof<IElectronAPI>('ping'), handlers.ping);
 
   createWindow()
 

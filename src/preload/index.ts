@@ -1,11 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import * as constants from "../shared/constants";
 import {IElectronAPI} from "../shared/types";
+import {nameof} from "../shared/helpers";
 
 // Custom APIs for renderer
 const api: IElectronAPI = {
-  ping: (): Promise<string> => ipcRenderer.invoke(constants.API.ping),
+  ping: (): Promise<string> => ipcRenderer.invoke(nameof<IElectronAPI>('ping')),
 
   // Add more APIs here
 }
