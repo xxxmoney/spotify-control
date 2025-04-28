@@ -4,7 +4,7 @@ import {useElectronAPI} from "@renderer/composables/api.comp";
 const api = useElectronAPI();
 
 const handle = async () => {
-  const result = await api.ping();
+  const result = await api.getDevices();
   console.log(result);
 };
 </script>
@@ -19,6 +19,8 @@ const handle = async () => {
     Dummy tip text
   </p>
   <div class="actions">
-      <button class="action" @click="handle">Dummy action</button>
+      <button class="action" @click="handle">
+        Get devices
+      </button>
   </div>
 </template>

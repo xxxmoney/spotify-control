@@ -1,11 +1,13 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import {IElectronAPI} from "../shared/types";
 import {nameof} from "../shared/helpers";
+import {IElectronAPI} from "../shared/types";
+import * as HID from 'node-hid';
 
 // Custom APIs for renderer
 const api: IElectronAPI = {
   ping: (): Promise<string> => ipcRenderer.invoke(nameof<IElectronAPI>('ping')),
+  getDevices: (): Promise<HID.Device[]> => ipcRenderer.invoke(nameof<IElectronAPI>('getDevices')),
 
   // Add more APIs here
 }
