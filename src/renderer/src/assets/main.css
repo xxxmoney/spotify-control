@@ -4,10 +4,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   background-image: url('./wavy-lines.svg');
   background-size: cover;
   user-select: none;
+  scrollbar-width: thin;
+  scrollbar-color: darkgrey lightgrey;
 }
 
 code {
@@ -32,10 +33,10 @@ code {
   justify-content: center;
   flex-direction: column;
   margin-bottom: 80px;
+  gap: 15px;
 }
 
 .logo {
-  margin-bottom: 20px;
   -webkit-user-drag: none;
   height: 128px;
   width: 128px;
@@ -52,8 +53,6 @@ code {
   font-weight: 700;
   line-height: 32px;
   text-align: center;
-  margin: 0 10px;
-  padding: 16px 0;
 }
 
 .tip {
@@ -64,9 +63,9 @@ code {
 }
 
 .actions {
+  overflow: scroll;
   display: flex;
   padding-top: 32px;
-  margin: -6px;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
@@ -93,6 +92,20 @@ code {
   border-color: var(--ev-button-alt-hover-border);
   color: var(--ev-button-alt-hover-text);
   background-color: var(--ev-button-alt-hover-bg);
+}
+
+.devices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.device {
+  padding: 5px;
+}
+.device .action {
+  width: 100%;
 }
 
 @media (max-width: 720px) {
