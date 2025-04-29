@@ -5,7 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import * as constants from "../shared/constants";
 import * as handlers from "./ipc/handlers";
 import {nameof} from "../shared/helpers";
-import {IElectronAPI} from "../shared/types";
+import {ElectronUserAPI} from "../shared/types";
 
 function createWindow(): void {
   // Create the browser window.
@@ -54,8 +54,8 @@ app.whenReady().then(() => {
   })
 
   // Ipc handlers
-  ipcMain.handle(nameof<IElectronAPI>('ping'), handlers.ping);
-  ipcMain.handle(nameof<IElectronAPI>('getDevices'), handlers.getDevices);
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping);
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices);
 
   createWindow()
 

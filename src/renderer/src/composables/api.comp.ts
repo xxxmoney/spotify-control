@@ -1,7 +1,7 @@
-import type { IElectronAPI } from '../../../shared/types';
+import type { ElectronUserAPI } from '../../../shared/types';
 
-export function useElectronAPI (): IElectronAPI {
-  const api = window.api as IElectronAPI;
+export function useElectronAPI (): ElectronUserAPI {
+  const api = window.api as ElectronUserAPI;
 
   return {
     ...api

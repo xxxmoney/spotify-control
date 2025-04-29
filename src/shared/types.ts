@@ -1,6 +1,6 @@
 import * as HID from "node-hid";
 
-export interface IElectronAPI {
+export interface ElectronUserAPI {
   ping: () => Promise<string>;
   getDevices: () => Promise<HID.Device[]>;
 }
