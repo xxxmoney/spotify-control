@@ -38,8 +38,8 @@ code {
 
 .logo {
   -webkit-user-drag: none;
-  height: 128px;
-  width: 128px;
+  height: 25px;
+  width: 25px;
   will-change: filter;
   transition: filter 300ms;
 }

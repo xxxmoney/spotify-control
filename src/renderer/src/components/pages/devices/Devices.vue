@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
+import { computed } from 'vue'
 
 const store = useDeviceStore()
+
+const getDevices = async (): Promise<void> => {
+  await store.getDevices()
+}
+
+const devices = computed(() => store.devices)
 </script>
 
 <template>

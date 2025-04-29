@@ -1,7 +1,9 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
+import * as routeConstants from '@renderer/constants/route.contants'
 
 import MainLayout from '@renderer/layouts/MainLayout.vue'
 import HomePage from '@renderer/pages/HomePage.vue'
+import DevicesPage from '@renderer/pages/DevicesPage.vue'
 
 const routes = [
   {
@@ -9,8 +11,14 @@ const routes = [
     component: MainLayout,
     children: [
       {
-        path: 'home',
+        path: '/',
+        name: routeConstants.HOME,
         component: HomePage
+      },
+      {
+        path: '/devices',
+        name: routeConstants.DEVICES,
+        component: DevicesPage
       }
     ]
   }
