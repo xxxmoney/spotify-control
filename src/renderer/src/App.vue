@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { useElectronAPI } from '@renderer/composables/api.comp'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import * as HID from 'node-hid'
 import { useDeviceStore } from '@renderer/stores/device.store'
 
