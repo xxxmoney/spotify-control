@@ -10,7 +10,11 @@ export const useDeviceStore = defineStore('device', () => {
     const api = useElectronAPI()
 
     devices.value = []
-    devices.value = await api.getDevices()
+    try {
+      devices.value = await api.getDevices()
+    } finally {
+      devices.value = []
+    }
   }
 
   return { devices, getDevices }

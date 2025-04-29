@@ -94,6 +94,14 @@ code {
   background-color: var(--ev-button-alt-hover-bg);
 }
 
+.devices-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
 .devices {
   display: grid;
   grid-template-columns: 1fr 1fr;
