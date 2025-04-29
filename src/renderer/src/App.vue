@@ -1,46 +1,32 @@
 <script setup lang="ts">
-import {useElectronAPI} from "@renderer/composables/api.comp";
-import {onMounted, ref} from "vue";
-import * as HID from "node-hid";
+import { useElectronAPI } from '@renderer/composables/api.comp'
+import { onMounted, ref } from 'vue'
+import * as HID from 'node-hid'
+import { useDeviceStore } from '@renderer/stores/device.store'
 
-const api = useElectronAPI();
-
-const devices = ref([] as HID.Device[]);
-
-const getDevices = async () => {
-  devices.value = [];
-  devices.value = await api.getDevices();
-
-  console.log(devices.value);
-};
+const store = useDeviceStore()
 
 const showDevice = async (device: HID.Device) => {
   // TODO
-};
+}
 
 onMounted(async () => {
-  await getDevices();
-});
+  await store.getDevices()
+})
 </script>
 
 <template>
   <img alt="logo" class="logo" src="./assets/electron.svg" />
   <div class="creator">Created by <code>xxxmoney</code></div>
-  <div class="text">
-    Spotify Control
-  </div>
-  <p class="tip">
-    Select device:
-  </p>
+  <div class="text">Spotify Control</div>
+  <p class="tip">Select device:</p>
 
-  <button class="action" @click="getDevices">
-    Refresh
-  </button>
+  <button class="action" @click="getDevices">Refresh</button>
 
   <div class="devices">
-    <div :key="device.productId" v-for="device in devices" class="device">
+    <div v-for="device in devices" :key="device.productId" class="device">
       <button class="action" @click="showDevice(device)">
-        {{device.manufacturer}} {{ device.product }}
+        {{ device.manufacturer }} {{ device.product }}
       </button>
     </div>
   </div>
