@@ -5,7 +5,7 @@ import Device from "@renderer/components/pages/device/Device.vue";
 
 <template>
   <div class="device-page">
-    <h1>Device</h1>
+    <h1 class="title">Device</h1>
 
     <Device />
   </div>

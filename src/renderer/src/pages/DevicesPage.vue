@@ -4,8 +4,8 @@ import Devices from '@renderer/components/pages/devices/Devices.vue'
 
 <template>
   <div class="devices-page">
-    <h1>Devices</h1>
-
+    <h1 class="title">Devices</h1>
+    
     <Devices />
   </div>
 </template>

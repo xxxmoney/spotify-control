@@ -1,13 +1,29 @@
 <script setup lang="ts">
 import * as routeConstants from '@renderer/constants/route.contants'
+import {useRouter} from "vue-router";
+
+const router = useRouter()
+
+function goBack(): void {
+  router.back()
+}
+function goForward(): void {
+  router.forward()
+}
 </script>
 
 <template>
   <nav>
-    <RouterLink :to="{ name: routeConstants.HOME }">
+    <button class="action" @click="goBack">
+      <-
+    </button>
+
+    <RouterLink :to="{ name: routeConstants.HOME }" class="logo-container">
       <img alt="logo" class="logo" src="../../assets/electron.svg" />
     </RouterLink>
 
-    <RouterLink :to="{ name: routeConstants.DEVICES }"> Devices </RouterLink>
+    <button class="action" @click="goForward">
+      ->
+    </button>
   </nav>
 </template>

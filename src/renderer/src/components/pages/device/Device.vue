@@ -6,6 +6,8 @@
 
   const device = computed(() => store.currentDevice)
 
+  // TODO: Implement device control
+
 </script>
 
 <template>

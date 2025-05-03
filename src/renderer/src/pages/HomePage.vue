@@ -1,8 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import * as routeConstants from "@renderer/constants/route.contants";
+import {useRouter} from "vue-router";
+
+const router = useRouter();
+
+async function goToDevices (): Promise<void> {
+  await router.push({ name: routeConstants.DEVICES });
+}
+</script>
 
 <template>
-  <div>
-    <div class="text">Spotify Control</div>
-    <div class="creator">Created by <code>xxxmoney</code></div>
+  <div class="home-page">
+    <div class="title">Spotify Control</div>
+
+    <button class="action" @click="goToDevices">
+      Show devices
+    </button>
   </div>
 </template>

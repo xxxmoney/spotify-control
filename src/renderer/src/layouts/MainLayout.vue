@@ -11,5 +11,7 @@ import NavBar from '@renderer/components/layout/NavBar.vue'
     <RouterView />
   </main>
 
-  <footer></footer>
+  <footer>
+    <p>Created by <code>xxxmoney</code></p>
+  </footer>
 </template>

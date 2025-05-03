@@ -4,6 +4,7 @@ import * as routeConstants from '@renderer/constants/route.contants'
 import MainLayout from '@renderer/layouts/MainLayout.vue'
 import HomePage from '@renderer/pages/HomePage.vue'
 import DevicesPage from '@renderer/pages/DevicesPage.vue'
+import DevicePage from '@renderer/pages/DevicePage.vue'
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
         path: '/devices',
         name: routeConstants.DEVICES,
         component: DevicesPage
+      },
+      {
+        path: '/device',
+        name: routeConstants.DEVICE,
+        component: DevicePage
       }
     ]
   }

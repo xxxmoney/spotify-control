@@ -5,6 +5,7 @@ import * as HID from 'node-hid'
 import {getDeviceId} from "@renderer/helpers/device.helper";
 
 export const useDeviceStore = defineStore('device', () => {
+  const isLoading = ref(false)
   const devices = ref([] as HID.Device[])
   const currentDeviceId = ref(null as null | string)
   const currentDevice = computed(() => devices.value.find(device => getDeviceId(device) === currentDeviceId.value))
@@ -14,9 +15,10 @@ export const useDeviceStore = defineStore('device', () => {
 
     devices.value = []
     try {
+      isLoading.value = true
       devices.value = await api.getDevices()
     } finally {
-      devices.value = []
+      isLoading.value = false
     }
   }
 
@@ -28,6 +30,7 @@ export const useDeviceStore = defineStore('device', () => {
   }
 
   return {
+    isLoading,
     devices,
     currentDevice,
     getDevices,

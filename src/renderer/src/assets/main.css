@@ -4,15 +4,52 @@
   Main
 */
 
+html {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  width: 100%;
+  height: 100%;
   background-image: url('./wavy-lines.svg');
   background-size: cover;
   user-select: none;
   scrollbar-width: thin;
   scrollbar-color: darkgrey lightgrey;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-xxl) var(--space-xl);
+  gap: var(--space-xl);
+}
+
+header {
+  flex: 0;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  flex: 0;
+  text-align: center;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 code {
@@ -31,13 +68,10 @@ code {
   font-size: 85%;
 }
 
-#app {
+.logo-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
-  margin-bottom: 80px;
-  gap: var(--space-xl);
+  align-items: center;
 }
 
 .logo {
@@ -51,17 +85,12 @@ code {
   filter: drop-shadow(0 0 1.2em #6988e6aa);
 }
 
-.text {
+.title {
   font-size: 28px;
   color: var(--ev-c-text-1);
   font-weight: 700;
   line-height: var(--space-xl);
   text-align: center;
-}
-@media (max-width: 720px) {
-  .text {
-    font-size: 20px;
-  }
 }
 
 .tip {
@@ -83,7 +112,9 @@ code {
   flex-shrink: 0;
   cursor: pointer;
   text-decoration: none;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: 1px solid transparent;
   text-align: center;
   font-weight: 600;
@@ -101,6 +132,28 @@ code {
   color: var(--ev-button-alt-hover-text);
   background-color: var(--ev-button-alt-hover-bg);
 }
+.action:disabled {
+  cursor: not-allowed;
+  border-color: var(--ev-c-gray-3);
+  color: var(--ev-c-text-3);
+  background-color: var(--ev-c-gray-2);
+}
+
+
+/*
+  Home page
+*/
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+.home-page .action {
+  margin-top: var(--space-l);
+}
+
 
 /*
   Devices page
@@ -111,21 +164,17 @@ code {
   flex-direction: column;
   gap: var(--space);
 }
-.devices-page h1 {
-  text-align: center;
-}
 
 .devices-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: var(--space);
 }
 
 .devices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
@@ -146,9 +195,6 @@ code {
   display: flex;
   flex-direction: column;
   gap: var(--space);
-}
-.device-page h1 {
-  text-align: center;
 }
 
 .device-container {
