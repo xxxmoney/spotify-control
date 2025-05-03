@@ -1,12 +1,11 @@
-import * as HID from 'node-hid';
+import * as XInput from "xinput-ffi";
+import {Device} from "src/shared/types";
 
 export function ping (): string {
   return 'pong';
 }
 
-export async function getDevices(): Promise<HID.Device[]> {
-  const devices = await HID.devicesAsync();
-
-  return devices;
+export async function getDevices(): Promise<Device[]> {
+  return await XInput.identify({XInputOnly: false});
 }
 

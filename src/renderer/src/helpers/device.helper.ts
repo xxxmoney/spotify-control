@@ -1,9 +1,9 @@
-import * as HID from "node-hid";
+import {Device} from "src/shared/types";
 
-export function getDeviceId(device: HID.Device): string {
+export function getDeviceId(device: Device): string {
   if (!device) {
     throw new Error('Invalid device or deviceId')
   }
 
-  return `${device.vendorId}_${device.productId}`
+  return `${device.vendorID}_${device.productID}`
 }

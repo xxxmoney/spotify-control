@@ -1,6 +1,15 @@
-import * as HID from "node-hid";
 
 export interface ElectronUserAPI {
   ping: () => Promise<string>;
-  getDevices: () => Promise<HID.Device[]>;
+  getDevices: () => Promise<Device[]>;
+}
+
+export interface Device {
+  name: string;
+  manufacturer: string;
+  vendorID: number;
+  productID: number;
+  xinput: boolean;
+  interfaces: string[];
+  guid: string[];
 }
