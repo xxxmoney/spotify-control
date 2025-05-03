@@ -11,9 +11,6 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "src/*": [
-        "src/*"
-      ],
       "@renderer/*": [
         "src/renderer/src/*"
       ]
