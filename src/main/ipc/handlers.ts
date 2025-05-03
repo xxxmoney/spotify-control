@@ -1,5 +1,5 @@
 import * as XInput from "xinput-ffi";
-import {Device} from "src/shared/types";
+import {Device} from "@/shared/types";
 
 export function ping (): string {
   return 'pong';

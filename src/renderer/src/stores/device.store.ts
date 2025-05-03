@@ -2,7 +2,7 @@ import {computed, ref} from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import {getDeviceId} from "@renderer/helpers/device.helper";
-import {Device} from "src/shared/types";
+import {Device} from "@/shared/types";
 
 export const useDeviceStore = defineStore('device', () => {
   const isLoading = ref(false)

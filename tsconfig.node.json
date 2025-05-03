@@ -4,5 +4,12 @@
   "compilerOptions": {
     "composite": true,
     "types": ["electron-vite/node"],
+    "baseUrl": ".",
+    "paths": {
+      // Map @/* to root src/*
+      "@/*": [
+        "src/*"
+      ]
+    }
   }
 }
