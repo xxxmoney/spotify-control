@@ -35,7 +35,7 @@
   --space-xxs: calc(var(--space) * 0.125);
   --space-xs: calc(var(--space) * 0.25);
   --space-s: calc(var(--space) * 0.5);
-  --space: 8px;
+  --space: 10px;
   --space-l: calc(var(--space) * 2);
   --space-xl: calc(var(--space) * 4);
   --space-xxl: calc(var(--space) * 8);

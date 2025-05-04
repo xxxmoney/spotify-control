@@ -18,10 +18,7 @@ async function goToDevice(device: any): Promise<void> {
   store.setCurrentDevice(device)
 
   await router.push({
-    name: 'device',
-    // params: {
-    //   deviceId: getDeviceId(device),
-    // },
+    name: 'device'
   })
 }
 
@@ -39,9 +36,9 @@ onMounted(async () => {
     </div>
 
     <div class="devices">
-      <div v-for="device in devices" :key="device.productId" class="device">
+      <div v-for="device in devices" :key="device.productID" class="device">
         <button class="action" @click="goToDevice(device)">
-          {{ device.manufacturer }} {{ device.product }}
+          {{ device.manufacturer }} {{ device.name }}
         </button>
       </div>
     </div>

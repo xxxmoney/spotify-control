@@ -54,8 +54,9 @@ app.whenReady().then(() => {
   })
 
   // Ipc handlers
-  ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping);
-  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices);
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), handlers.getDeviceState)
 
   createWindow()
 
