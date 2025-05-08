@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import {getDeviceId} from "@renderer/helpers/device.helper";
 import {Device, DeviceState} from "@/shared/types";
+import {getObjectChanges} from "@renderer/helpers/object.helper";
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
@@ -10,9 +11,18 @@ export const useDeviceStore = defineStore('device', () => {
   const isLoading = ref(false)
   const devices = ref([] as Device[])
   const currentDeviceId = ref(null as null | string)
-  const currentDeviceState = ref(null as null | DeviceState)
+  const deviceStateLast = ref(null as null | DeviceState)
+  const deviceStateCurrent = ref(null as null | DeviceState)
+
   const currentDeviceIndex = computed(() => devices.value.findIndex(device => getDeviceId(device) === currentDeviceId.value))
   const currentDevice = computed(() => currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value])
+  const deviceStateDifference = computed(() => {
+    if (!deviceStateCurrent.value) {
+      return null
+    }
+
+    return getObjectChanges(deviceStateCurrent.value, deviceStateLast.value)
+  })
 
   function setCurrentDevice(device: Device): void {
     currentDeviceId.value = getDeviceId(device)
@@ -35,7 +45,7 @@ export const useDeviceStore = defineStore('device', () => {
     if (currentDevice.value) {
       try {
         isLoading.value = true
-        currentDeviceState.value = await api.getDeviceState(currentDeviceIndex.value)
+        deviceStateLast.value = await api.getDeviceState(currentDeviceIndex.value)
       } finally {
         isLoading.value = false
       }
@@ -46,7 +56,9 @@ export const useDeviceStore = defineStore('device', () => {
     isLoading,
     devices,
     currentDevice,
-    currentDeviceState,
+    deviceStateLast,
+    deviceStateCurrent,
+    deviceStateDifference,
 
     setCurrentDevice,
     resetCurrentDevice,

@@ -5,11 +5,7 @@
   const store = useDeviceStore()
 
   const device = computed(() => store.currentDevice)
-  const state = computed(() => store.currentDeviceState)
 
-  onMounted(async () => {
-    await store.getCurrentDeviceState()
-  })
   onUnmounted(() => {
     store.resetCurrentDevice()
   })
@@ -19,7 +15,7 @@
 </script>
 
 <template>
-  <div class="device-container">
+  <div class="device-setup-container">
 
   </div>
 </template>
