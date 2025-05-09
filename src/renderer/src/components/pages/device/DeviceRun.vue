@@ -7,7 +7,7 @@
 // Add logic cor continoously getting current state and using the difference
 
   onMounted(async () => {
-    await store.getCurrentDeviceState()
+    await store.refreshDeviceState()
 
     console.log(store.deviceStateDifference)
   })

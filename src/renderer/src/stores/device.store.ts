@@ -41,7 +41,7 @@ export const useDeviceStore = defineStore('device', () => {
     }
   }
 
-  async function getCurrentDeviceState(): Promise<void> {
+  async function refreshDeviceState(): Promise<void> {
     if (currentDevice.value) {
       try {
         isLoading.value = true
@@ -65,6 +65,6 @@ export const useDeviceStore = defineStore('device', () => {
     resetCurrentDevice,
 
     getDevices,
-    getCurrentDeviceState,
+    refreshDeviceState,
   }
 })
