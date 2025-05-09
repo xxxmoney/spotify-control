@@ -1,8 +1,8 @@
 import * as _ from "lodash";
 
-export function getObjectChanges(currentObj, lastObj) {
-  currentObj = currentObj || {};
-  lastObj = lastObj || {};
+export function getObjectChanges<T>(currentObj: T, lastObj: T): any {
+  currentObj = currentObj || {} as T;
+  lastObj = lastObj || {} as T;
 
   // Union of keys from both objects
   const allKeys = _.union(_.keys(lastObj), _.keys(currentObj));
@@ -20,4 +20,12 @@ export function getObjectChanges(currentObj, lastObj) {
       };
     }
   }, {});
+}
+
+export function cloneDeep<T>(obj: T): T | null {
+  if (!obj) {
+    return null;
+  }
+
+  return _.cloneDeep(obj)
 }

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import {getDeviceId} from "@renderer/helpers/device.helper";
 import {Device, DeviceState} from "@/shared/types";
-import {getObjectChanges} from "@renderer/helpers/object.helper";
+import {getObjectChanges, cloneDeep} from "@renderer/helpers/object.helper";
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
@@ -18,7 +18,7 @@ export const useDeviceStore = defineStore('device', () => {
   const currentDevice = computed(() => currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value])
   const deviceStateDifference = computed(() => {
     if (!deviceStateCurrent.value) {
-      return null
+      return {}
     }
 
     return getObjectChanges(deviceStateCurrent.value, deviceStateLast.value)
@@ -45,7 +45,8 @@ export const useDeviceStore = defineStore('device', () => {
     if (currentDevice.value) {
       try {
         isLoading.value = true
-        deviceStateLast.value = await api.getDeviceState(currentDeviceIndex.value)
+        deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
+        deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
       } finally {
         isLoading.value = false
       }
