@@ -6,10 +6,6 @@ const store = useDeviceStore()
 
 const device = computed(() => store.currentDevice!)
 
-onUnmounted(() => {
-  store.resetCurrentDevice()
-})
-
 // TODO: Implement device control
 </script>
 
