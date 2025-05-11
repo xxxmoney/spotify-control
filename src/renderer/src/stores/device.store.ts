@@ -2,9 +2,9 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import { getDeviceId } from '@renderer/helpers/device.helper'
-import * as constants from '@/shared/constants'
 import { Device, DeviceState } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
+import * as constants from '@renderer/constants/constants'
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
