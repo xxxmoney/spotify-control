@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
-import { computed, onUnmounted } from 'vue'
+import { computed } from 'vue'
 
 const store = useDeviceStore()
 
