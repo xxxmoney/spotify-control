@@ -6,6 +6,7 @@ import { computed } from 'vue'
 
 const store = useDeviceStore()
 
+const isRunning = computed(() => store.isRunning)
 const deviceName = computed(() => store.currentDevice!.name)
 </script>
 
@@ -14,6 +15,6 @@ const deviceName = computed(() => store.currentDevice!.name)
     <h1 class="title">{{ deviceName }}</h1>
 
     <DeviceRun />
-    <DeviceSetup />
+    <DeviceSetup v-if="!isRunning" />
   </div>
 </template>

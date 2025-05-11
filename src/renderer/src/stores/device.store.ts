@@ -16,6 +16,7 @@ export const useDeviceStore = defineStore('device', () => {
   const deviceStateLast = ref(null as null | DeviceState)
   const deviceStateCurrent = ref(null as null | DeviceState)
 
+  // Whether state checking is running or not
   const isRunning = computed(() => !!interval.value)
   const currentDeviceIndex = computed(() =>
     devices.value.findIndex((device) => getDeviceId(device) === currentDeviceId.value)

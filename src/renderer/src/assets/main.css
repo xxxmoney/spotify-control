@@ -68,6 +68,10 @@ code {
   font-size: 85%;
 }
 
+.uppercase {
+  text-transform: uppercase;
+}
+
 .logo-container {
   display: flex;
   justify-content: center;

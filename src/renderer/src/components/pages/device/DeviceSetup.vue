@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, onUnmounted } from 'vue'
 
 const store = useDeviceStore()
 
-const device = computed(() => store.currentDevice)
+const device = computed(() => store.currentDevice!)
 
 onUnmounted(() => {
   store.resetCurrentDevice()
@@ -16,5 +16,7 @@ onUnmounted(() => {
 <template>
   <div class="device-setup-container">
     <!-- TODO: add binding here   -->
+
+    {{ device.name }}
   </div>
 </template>

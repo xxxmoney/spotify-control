@@ -4,7 +4,7 @@ import { onMounted } from 'vue'
 
 const store = useDeviceStore()
 
-// Add logic cor continoously getting current state and using the difference
+// Add logic cor continuously getting current state and using the difference
 
 function switchDeviceStateChecking(): void {
   if (store.isRunning) {
@@ -23,6 +23,8 @@ onMounted(async () => {
   <div class="device-run-container">
     <!-- TODO: add buttons to start and stop, maybe current key presses   -->
 
-    <button class="action" @click="switchDeviceStateChecking">START</button>
+    <button class="action" @click="switchDeviceStateChecking">
+      <span class="uppercase">{{ store.isRunning ? 'stop' : 'start' }}</span>
+    </button>
   </div>
 </template>

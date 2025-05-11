@@ -14,12 +14,12 @@ function goForward(): void {
 
 <template>
   <nav>
-    <button class="action" @click="goBack">←</button>
+    <button class="action" @click="goBack">Previous</button>
 
     <RouterLink :to="{ name: routeConstants.HOME }" class="logo-container">
       <img alt="logo" class="logo" src="../../assets/electron.svg" />
     </RouterLink>
 
-    <button class="action" @click="goForward">→</button>
+    <button class="action" @click="goForward">Next</button>
   </nav>
 </template>
