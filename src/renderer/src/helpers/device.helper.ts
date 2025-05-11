@@ -1,4 +1,4 @@
-import {Device} from "@/shared/types";
+import { Device } from '@/shared/types'
 
 export function getDeviceId(device: Device): string {
   if (!device) {

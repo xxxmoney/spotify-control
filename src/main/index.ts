@@ -1,12 +1,12 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import { installExtension } from 'electron-devtools-installer';
+import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
-import * as constants from "../shared/constants";
-import * as handlers from "./ipc/handlers";
-import {nameof} from "../shared/helpers";
-import {ElectronUserAPI} from "../shared/types";
+import * as constants from '../shared/constants'
+import * as handlers from './ipc/handlers'
+import { nameof } from '../shared/helpers'
+import { ElectronUserAPI } from '../shared/types'
 
 function createWindow(): void {
   // Create the browser window.
@@ -46,8 +46,7 @@ async function installExtensions(): Promise<void> {
       try {
         await installExtension(extension)
         console.log(`Added Extension: ${extension}`)
-      }
-      catch (e) {
+      } catch (e) {
         console.log(`Error occurred while adding extension: ${extension}`, e)
       }
     }

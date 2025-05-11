@@ -1,21 +1,20 @@
 <script setup lang="ts">
-  import {useDeviceStore} from "@renderer/stores/device.store";
-  import {computed, onMounted, onUnmounted} from "vue";
+import { useDeviceStore } from '@renderer/stores/device.store'
+import { computed, onMounted, onUnmounted } from 'vue'
 
-  const store = useDeviceStore()
+const store = useDeviceStore()
 
-  const device = computed(() => store.currentDevice)
+const device = computed(() => store.currentDevice)
 
-  onUnmounted(() => {
-    store.resetCurrentDevice()
-  })
+onUnmounted(() => {
+  store.resetCurrentDevice()
+})
 
-  // TODO: Implement device control
-
+// TODO: Implement device control
 </script>
 
 <template>
   <div class="device-setup-container">
-
+    <!-- TODO: add binding here   -->
   </div>
 </template>

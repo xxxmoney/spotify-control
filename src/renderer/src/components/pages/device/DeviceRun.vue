@@ -1,20 +1,28 @@
 <script setup lang="ts">
-  import {useDeviceStore} from "@renderer/stores/device.store";
-  import {onMounted} from "vue";
+import { useDeviceStore } from '@renderer/stores/device.store'
+import { onMounted } from 'vue'
 
-  const store = useDeviceStore()
+const store = useDeviceStore()
 
 // Add logic cor continoously getting current state and using the difference
 
-  onMounted(async () => {
-    await store.refreshDeviceState()
+function switchDeviceStateChecking(): void {
+  if (store.isRunning) {
+    store.stopDeviceStateChecking()
+  } else {
+    store.startDeviceStateChecking()
+  }
+}
 
-    console.log(store.deviceStateDifference)
-  })
+onMounted(async () => {
+  await store.refreshDeviceState()
+})
 </script>
 
 <template>
   <div class="device-run-container">
     <!-- TODO: add buttons to start and stop, maybe current key presses   -->
+
+    <button class="action" @click="switchDeviceStateChecking">START</button>
   </div>
 </template>

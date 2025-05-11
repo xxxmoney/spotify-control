@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
-import {computed, onMounted} from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import RefreshIcon from "@renderer/components/reusable/RefreshIcon.vue";
+import RefreshIcon from '@renderer/components/reusable/RefreshIcon.vue'
+import { Device } from '@/shared/types'
 
 const router = useRouter()
 const store = useDeviceStore()
@@ -14,7 +15,7 @@ async function getDevices(): Promise<void> {
   await store.getDevices()
 }
 
-async function goToDevice(device: any): Promise<void> {
+async function goToDevice(device: Device): Promise<void> {
   store.setCurrentDevice(device)
 
   await router.push({

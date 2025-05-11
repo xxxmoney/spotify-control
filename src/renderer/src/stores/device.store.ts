@@ -1,21 +1,28 @@
-import {computed, ref} from 'vue'
+import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
-import {getDeviceId} from "@renderer/helpers/device.helper";
-import {Device, DeviceState} from "@/shared/types";
-import {getObjectChanges, cloneDeep} from "@renderer/helpers/object.helper";
+import { getDeviceId } from '@renderer/helpers/device.helper'
+import * as constants from '@/shared/constants'
+import { Device, DeviceState } from '@/shared/types'
+import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
 
   const isLoading = ref(false)
+  const interval = ref(null as null | NodeJS.Timeout)
   const devices = ref([] as Device[])
   const currentDeviceId = ref(null as null | string)
   const deviceStateLast = ref(null as null | DeviceState)
   const deviceStateCurrent = ref(null as null | DeviceState)
 
-  const currentDeviceIndex = computed(() => devices.value.findIndex(device => getDeviceId(device) === currentDeviceId.value))
-  const currentDevice = computed(() => currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value])
+  const isRunning = computed(() => !!interval.value)
+  const currentDeviceIndex = computed(() =>
+    devices.value.findIndex((device) => getDeviceId(device) === currentDeviceId.value)
+  )
+  const currentDevice = computed(() =>
+    currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value]
+  )
   const deviceStateDifference = computed(() => {
     if (!deviceStateCurrent.value) {
       return {}
@@ -29,6 +36,28 @@ export const useDeviceStore = defineStore('device', () => {
   }
   function resetCurrentDevice(): void {
     currentDeviceId.value = null
+  }
+
+  function startDeviceStateChecking(): void {
+    if (isRunning.value) {
+      return
+    }
+
+    if (currentDevice.value) {
+      interval.value = setInterval(async () => {
+        await refreshDeviceState()
+      }, constants.INTERVAL_TIMEOUT)
+    }
+  }
+  function stopDeviceStateChecking(): void {
+    if (!isRunning.value) {
+      return
+    }
+
+    if (interval.value) {
+      clearInterval(interval.value)
+      interval.value = null
+    }
   }
 
   async function getDevices(): Promise<void> {
@@ -55,6 +84,7 @@ export const useDeviceStore = defineStore('device', () => {
 
   return {
     isLoading,
+    isRunning,
     devices,
     currentDevice,
     deviceStateLast,
@@ -63,8 +93,10 @@ export const useDeviceStore = defineStore('device', () => {
 
     setCurrentDevice,
     resetCurrentDevice,
+    startDeviceStateChecking,
+    stopDeviceStateChecking,
 
     getDevices,
-    refreshDeviceState,
+    refreshDeviceState
   }
 })
