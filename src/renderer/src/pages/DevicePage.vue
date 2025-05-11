@@ -15,6 +15,6 @@ const deviceName = computed(() => store.currentDevice!.name)
     <h1 class="title">{{ deviceName }}</h1>
 
     <DeviceRun />
-    <DeviceSetup v-if="!isRunning" />
+    <DeviceSetup :class="{ hidden: !isRunning }" />
   </div>
 </template>

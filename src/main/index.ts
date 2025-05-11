@@ -45,9 +45,9 @@ async function installExtensions(): Promise<void> {
     for (const extension of constants.EXTENSIONS) {
       try {
         await installExtension(extension)
-        console.log(`Added Extension: ${extension}`)
+        console.log(`Added Extension: ${JSON.stringify(extension)}`)
       } catch (e) {
-        console.log(`Error occurred while adding extension: ${extension}`, e)
+        console.log(`Error occurred while adding extension: ${JSON.stringify(extension)}`, e)
       }
     }
   }

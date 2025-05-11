@@ -40,21 +40,15 @@ export const useDeviceStore = defineStore('device', () => {
   }
 
   function startDeviceStateChecking(): void {
-    if (isRunning.value) {
-      return
+    if (interval.value) {
+      stopDeviceStateChecking()
     }
 
-    if (currentDevice.value) {
-      interval.value = setInterval(async () => {
-        await refreshDeviceState()
-      }, constants.INTERVAL_TIMEOUT)
-    }
+    interval.value = setInterval(async () => {
+      await refreshDeviceState()
+    }, constants.INTERVAL_TIMEOUT)
   }
   function stopDeviceStateChecking(): void {
-    if (!isRunning.value) {
-      return
-    }
-
     if (interval.value) {
       clearInterval(interval.value)
       interval.value = null
@@ -72,14 +66,12 @@ export const useDeviceStore = defineStore('device', () => {
   }
 
   async function refreshDeviceState(): Promise<void> {
-    if (currentDevice.value) {
-      try {
-        isLoading.value = true
-        deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
-        deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
-      } finally {
-        isLoading.value = false
-      }
+    try {
+      isLoading.value = true
+      deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
+      deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
+    } finally {
+      isLoading.value = false
     }
   }
 
