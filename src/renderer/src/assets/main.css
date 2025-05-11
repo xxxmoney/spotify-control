@@ -192,11 +192,6 @@ code {
   gap: var(--space);
 }
 
-.home-page .action {
-  margin-top: var(--space-l);
-}
-
-
 /*
   Devices page
 */
