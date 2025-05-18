@@ -2,9 +2,11 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import { getDeviceId } from '@renderer/helpers/device.helper'
-import { Device, DeviceState } from '@/shared/types'
+import { Device, DeviceState, Settings } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 import * as constants from '@renderer/constants/constants'
+import { useStorage } from '@vueuse/core'
+import { SETTINGS_KEY } from '@renderer/constants/constants'
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
@@ -15,6 +17,7 @@ export const useDeviceStore = defineStore('device', () => {
   const currentDeviceId = ref(null as null | string)
   const deviceStateLast = ref(null as null | DeviceState)
   const deviceStateCurrent = ref(null as null | DeviceState)
+  const settings = useStorage(SETTINGS_KEY, { bindings: {} } as Settings)
 
   // Whether state checking is running or not
   const isRunning = computed(() => !!interval.value)
@@ -83,6 +86,7 @@ export const useDeviceStore = defineStore('device', () => {
     deviceStateLast,
     deviceStateCurrent,
     deviceStateDifference,
+    settings,
 
     setCurrentDevice,
     resetCurrentDevice,

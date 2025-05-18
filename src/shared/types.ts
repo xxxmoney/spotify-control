@@ -42,3 +42,38 @@ export interface DeviceState {
     }
   }
 }
+
+export interface Settings {
+  bindings: BindingByDevice
+}
+
+export interface BindingByDevice {
+  [deviceId: string]: DeviceBindings
+}
+export interface DeviceBindings {
+  buttons: ActionByButton
+  axes: ActionByAxis
+}
+
+export interface ActionByButton {
+  [button: string]: ButtonAction[]
+}
+export interface ActionByAxis {
+  [axis: string]: AxisAction[]
+}
+
+export interface ButtonAction {
+  name: string
+  settings: SettingsButtonAction
+}
+export interface AxisAction {
+  name: string
+  settings: SettingsAxisAction
+}
+
+export interface SettingsButtonAction {
+  // TODO
+}
+export interface SettingsAxisAction {
+  // TODO
+}
