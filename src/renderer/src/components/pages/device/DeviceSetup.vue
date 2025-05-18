@@ -25,7 +25,9 @@ onBeforeMount(() => {
 
       <div class="device-setup-actions">
         <template v-for="actions in bindings.buttons">
-          {{ actions.length }}
+          <template v-for="action in actions">
+            <!--          TODO-->
+          </template>
         </template>
       </div>
 
@@ -33,11 +35,13 @@ onBeforeMount(() => {
     </div>
 
     <div>
-      <span>AXIS</span>
+      <span>AXES</span>
 
       <div class="device-setup-actions">
         <template v-for="actions in bindings.buttons">
-          {{ actions.length }}
+          <template v-for="action in actions">
+            <!--          TODO-->
+          </template>
         </template>
       </div>
 
