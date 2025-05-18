@@ -248,3 +248,9 @@ code {
   width: 100px;
 }
 
+.device-setup-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space);
+}
+

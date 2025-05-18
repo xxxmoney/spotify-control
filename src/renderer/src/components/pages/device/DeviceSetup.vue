@@ -1,18 +1,47 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
-import { computed } from 'vue'
+import { computed, onBeforeMount } from 'vue'
 
 const store = useDeviceStore()
 
-const device = computed(() => store.currentDevice!)
+const bindings = computed(() => store.currentBindings)
 
-// TODO: Implement device control
+function addButtonBinding(): void {
+  // TODO
+}
+function addAxisBinding(): void {
+  // TODO
+}
+
+onBeforeMount(() => {
+  store.initializeCurrentBindings()
+})
 </script>
 
 <template>
   <div class="device-setup-container">
-    <!-- TODO: add binding here   -->
+    <div>
+      <span>BUTTONS</span>
 
-    {{ device.name }}
+      <div class="device-setup-actions">
+        <template v-for="actions in bindings.buttons">
+          {{ actions.length }}
+        </template>
+      </div>
+
+      <button class="action" @click="addButtonBinding">ADD</button>
+    </div>
+
+    <div>
+      <span>AXIS</span>
+
+      <div class="device-setup-actions">
+        <template v-for="actions in bindings.buttons">
+          {{ actions.length }}
+        </template>
+      </div>
+
+      <button class="action" @click="addAxisBinding">ADD</button>
+    </div>
   </div>
 </template>

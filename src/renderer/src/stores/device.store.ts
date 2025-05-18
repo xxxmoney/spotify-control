@@ -17,7 +17,13 @@ export const useDeviceStore = defineStore('device', () => {
   const currentDeviceId = ref(null as null | string)
   const deviceStateLast = ref(null as null | DeviceState)
   const deviceStateCurrent = ref(null as null | DeviceState)
-  const settings = useStorage(SETTINGS_KEY, { bindings: {} } as Settings)
+  const settings = useStorage<Settings>(SETTINGS_KEY, { bindings: {} } as Settings)
+  const currentBindings = computed({
+    get: () => settings.value.bindings[currentDeviceId.value ?? ''],
+    set: (value) => {
+      settings.value.bindings[currentDeviceId.value ?? ''] = value
+    }
+  })
 
   // Whether state checking is running or not
   const isRunning = computed(() => !!interval.value)
@@ -40,6 +46,16 @@ export const useDeviceStore = defineStore('device', () => {
   }
   function resetCurrentDevice(): void {
     currentDeviceId.value = null
+  }
+
+  function initializeCurrentBindings(): void {
+    if (!currentDeviceId.value) {
+      throw new Error('Current device Id is not set')
+    }
+
+    if (!currentBindings.value) {
+      currentBindings.value = { buttons: {}, axes: {} }
+    }
   }
 
   function startDeviceStateChecking(): void {
@@ -86,12 +102,13 @@ export const useDeviceStore = defineStore('device', () => {
     deviceStateLast,
     deviceStateCurrent,
     deviceStateDifference,
-    settings,
+    currentBindings,
 
     setCurrentDevice,
     resetCurrentDevice,
     startDeviceStateChecking,
     stopDeviceStateChecking,
+    initializeCurrentBindings,
 
     getDevices,
     refreshDeviceState
