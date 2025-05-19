@@ -3,16 +3,16 @@ import { ButtonAction } from '@/shared/types'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  modelValue: ButtonAction
+  modelValue: ButtonAction[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: ButtonAction): void
+  (e: 'update:modelValue', modelValue: ButtonAction[]): void
 }>()
 
-const action = computed({
+const actions = computed({
   get: () => props.modelValue,
-  set: (value: ButtonAction) => {
+  set: (value: ButtonAction[]) => {
     emit('update:modelValue', value)
   }
 })
@@ -20,6 +20,10 @@ const action = computed({
 
 <template>
   <div>
+    <template v-for="(_, index) in actions" :key="index">
+      <ButtonAction v-model="actions[index]" />
+    </template>
+
     <!--    TODO-->
   </div>
 </template>

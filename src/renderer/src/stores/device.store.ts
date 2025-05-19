@@ -58,6 +58,14 @@ export const useDeviceStore = defineStore('device', () => {
     }
   }
 
+  function addButtonBinding(): void {
+    currentBindings.value.buttons[''] = []
+  }
+
+  function addAxisBinding(): void {
+    currentBindings.value.axes[''] = []
+  }
+
   function startDeviceStateChecking(): void {
     if (interval.value) {
       stopDeviceStateChecking()
@@ -109,6 +117,8 @@ export const useDeviceStore = defineStore('device', () => {
     startDeviceStateChecking,
     stopDeviceStateChecking,
     initializeCurrentBindings,
+    addButtonBinding,
+    addAxisBinding,
 
     getDevices,
     refreshDeviceState

@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed, onBeforeMount } from 'vue'
+import ButtonActions from '@renderer/components/pages/device/ButtonActions.vue'
+import AxesActions from '@renderer/components/pages/device/AxesActions.vue'
 
 const store = useDeviceStore()
 
 const bindings = computed(() => store.currentBindings)
 
+// TODO: for add button and add axis binding- maybe take button as parameter
+
 function addButtonBinding(): void {
-  // TODO
+  store.addButtonBinding()
 }
 function addAxisBinding(): void {
-  // TODO
+  store.addAxisBinding()
 }
 
 onBeforeMount(() => {
@@ -24,10 +28,8 @@ onBeforeMount(() => {
       <span class="subtitle">Buttons</span>
 
       <div class="device-setup-actions">
-        <template v-for="actions in bindings.buttons">
-          <template v-for="action in actions">
-            <!--          TODO-->
-          </template>
+        <template v-for="(_, index) in bindings.buttons" :key="index">
+          <ButtonActions v-model="bindings.buttons[index]" />
         </template>
       </div>
 
@@ -38,10 +40,8 @@ onBeforeMount(() => {
       <span class="subtitle">Axes</span>
 
       <div class="device-setup-actions">
-        <template v-for="actions in bindings.buttons">
-          <template v-for="action in actions">
-            <!--          TODO-->
-          </template>
+        <template v-for="(_, index) in bindings.axes" :key="index">
+          <AxesActions v-model="bindings.axes[index]" />
         </template>
       </div>
 

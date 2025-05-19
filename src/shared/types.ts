@@ -1,3 +1,5 @@
+import { AxisActionType, ButtonActionType } from '@/renderer/src/enums/device.enums'
+
 export interface ElectronUserAPI {
   ping: () => Promise<string>
   getDevices: () => Promise<Device[]>
@@ -59,15 +61,15 @@ export interface ActionByButton {
   [button: string]: ButtonAction[]
 }
 export interface ActionByAxis {
-  [axis: string]: AxisAction[]
+  [axis: string]: AxesAction[]
 }
 
 export interface ButtonAction {
-  name: string
+  type: ButtonActionType
   settings: SettingsButtonAction
 }
-export interface AxisAction {
-  name: string
+export interface AxesAction {
+  type: AxisActionType
   settings: SettingsAxisAction
 }
 

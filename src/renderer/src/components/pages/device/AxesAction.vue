@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ButtonAction } from '@/shared/types'
+import { AxesAction } from '@/shared/types'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  modelValue: ButtonAction
+  modelValue: AxesAction
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: ButtonAction): void
+  (e: 'update:modelValue', modelValue: AxesAction): void
 }>()
 
 const action = computed({
   get: () => props.modelValue,
-  set: (value: ButtonAction) => {
+  set: (value: AxesAction) => {
     emit('update:modelValue', value)
   }
 })
