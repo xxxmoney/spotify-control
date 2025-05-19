@@ -21,7 +21,7 @@ onBeforeMount(() => {
 <template>
   <div class="device-setup-container">
     <div>
-      <span>BUTTONS</span>
+      <span class="subtitle">Buttons</span>
 
       <div class="device-setup-actions">
         <template v-for="actions in bindings.buttons">
@@ -31,11 +31,11 @@ onBeforeMount(() => {
         </template>
       </div>
 
-      <button class="action" @click="addButtonBinding">ADD</button>
+      <button class="action rounded" @click="addButtonBinding">+</button>
     </div>
 
     <div>
-      <span>AXES</span>
+      <span class="subtitle">Axes</span>
 
       <div class="device-setup-actions">
         <template v-for="actions in bindings.buttons">
@@ -45,7 +45,7 @@ onBeforeMount(() => {
         </template>
       </div>
 
-      <button class="action" @click="addAxisBinding">ADD</button>
+      <button class="action rounded" @click="addAxisBinding">+</button>
     </div>
   </div>
 </template>

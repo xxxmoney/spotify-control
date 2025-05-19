@@ -231,7 +231,7 @@ code {
 .device-page {
   display: flex;
   flex-direction: column;
-  gap: var(--space);
+  gap: var(--space-xl);
 }
 
 .device-container {
