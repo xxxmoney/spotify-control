@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { AxesAction, ButtonAction } from '@/shared/types'
+import { AxesAction as AxesActionType } from '@/shared/types'
 import { computed } from 'vue'
+import AxesAction from '@renderer/components/pages/device/AxesAction.vue'
 
 const props = defineProps<{
-  modelValue: AxesAction[]
+  modelValue: AxesActionType[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: AxesAction[]): void
+  (e: 'update:modelValue', modelValue: AxesActionType[]): void
 }>()
 
 const actions = computed({
   get: () => props.modelValue,
-  set: (value: AxesAction[]) => {
+  set: (value: AxesActionType[]) => {
     emit('update:modelValue', value)
   }
 })

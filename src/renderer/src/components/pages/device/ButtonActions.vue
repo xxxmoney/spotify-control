@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ButtonAction } from '@/shared/types'
+import { ButtonAction as ButtonActionType } from '@/shared/types'
 import { computed } from 'vue'
+import ButtonAction from '@renderer/components/pages/device/ButtonAction.vue'
 
 const props = defineProps<{
-  modelValue: ButtonAction[]
+  modelValue: ButtonActionType[]
 }>()
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', modelValue: ButtonAction[]): void
+  (e: 'update:modelValue', modelValue: ButtonActionType[]): void
 }>()
 
 const actions = computed({
   get: () => props.modelValue,
-  set: (value: ButtonAction[]) => {
+  set: (value: ButtonActionType[]) => {
     emit('update:modelValue', value)
   }
 })
