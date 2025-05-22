@@ -14,9 +14,10 @@ onBeforeMount(() => {
 <template>
   <div class="device-setup-container">
     <div class="device-setup-actions-container">
-      <span class="subtitle">Buttons</span>
-
-      <ButtonSelector />
+      <div>
+        <span class="subtitle center">Buttons</span>
+        <ButtonSelector />
+      </div>
       <Buttons />
     </div>
 

@@ -43,6 +43,6 @@ function removeButton(): void {
       <ButtonAction v-model="actions[index]" @remove="removeAction(buttonAction)" />
     </template>
 
-    <button class="action" @click="addAction">New</button>
+    <button class="action center" @click="addAction">New Action</button>
   </div>
 </template>
