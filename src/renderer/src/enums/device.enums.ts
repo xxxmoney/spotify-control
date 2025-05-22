@@ -1,8 +1,10 @@
-export enum ButtonActionType {
+export enum ButtonActionTypeEnum {
+  None,
   VolumeUp,
   VolumeDown
 }
 
-export enum AxisActionType {
+export enum AxisActionTypeEnum {
+  None,
   Volume
 }

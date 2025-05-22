@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import { getDeviceId } from '@renderer/helpers/device.helper'
-import { Device, DeviceState, Settings } from '@/shared/types'
+import { ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 import * as constants from '@renderer/constants/constants'
 import { useStorage } from '@vueuse/core'
@@ -58,12 +58,42 @@ export const useDeviceStore = defineStore('device', () => {
     }
   }
 
-  function addButtonBinding(): void {
-    currentBindings.value.buttons[''] = []
+  function addButtonBinding(button: string): void {
+    currentBindings.value.buttons[button] = []
+  }
+  function removeButtonBinding(button: string): void {
+    if (!currentBindings.value.buttons[button]) {
+      throw new Error(`Button ${button} is not bound`)
+    }
+
+    delete currentBindings.value.buttons[button]
+  }
+  function updateActionsByButton(button: string, actions: ButtonAction[]): void {
+    currentBindings.value[button] = actions
+  }
+  function addActionByButton(button: string, action: ButtonAction): void {
+    if (!currentBindings.value.buttons[button]) {
+      throw new Error(`Button ${button} is not bound`)
+    }
+
+    currentBindings.value.buttons[button].push(action)
+  }
+  function removeActionByButton(button: string, action: ButtonAction): void {
+    if (!currentBindings.value.buttons[button]) {
+      throw new Error(`Button ${button} is not bound`)
+    }
+
+    const index = currentBindings.value.buttons[button].indexOf(action)
+
+    if (index === -1) {
+      throw new Error(`Action ${action} is not bound to button ${button}`)
+    }
+
+    currentBindings.value.buttons[button].splice(index, 1)
   }
 
-  function addAxisBinding(): void {
-    currentBindings.value.axes[''] = []
+  function addAxisBinding(axis: string): void {
+    currentBindings.value.axes[axis] = []
   }
 
   function startDeviceStateChecking(): void {
@@ -118,7 +148,11 @@ export const useDeviceStore = defineStore('device', () => {
     stopDeviceStateChecking,
     initializeCurrentBindings,
     addButtonBinding,
+    removeButtonBinding,
     addAxisBinding,
+    updateActionsByButton,
+    addActionByButton,
+    removeActionByButton,
 
     getDevices,
     refreshDeviceState

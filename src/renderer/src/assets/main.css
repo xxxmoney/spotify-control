@@ -181,6 +181,11 @@ code {
   background-color: var(--ev-c-gray-2);
 }
 
+.center {
+  display: block;
+  margin: 0 auto;
+}
+
 
 /*
   Home page
@@ -223,6 +228,12 @@ code {
   width: 100%;
 }
 
+.success {
+  background: var(--ev-c-success);
+}
+.danger {
+  background: var(--ev-c-danger);
+}
 
 /*
   DeviceSetup page
@@ -252,5 +263,45 @@ code {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space);
+}
+
+.device-setup-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.device-setup-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
+}
+
+.button-selector-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+.button-actions-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space);
+}
+
+.button-actions-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.button-action-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-s);
 }
 

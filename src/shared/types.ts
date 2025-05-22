@@ -1,4 +1,4 @@
-import { AxisActionType, ButtonActionType } from '@/renderer/src/enums/device.enums'
+import { AxisActionTypeEnum, ButtonActionTypeEnum } from '@/renderer/src/enums/device.enums'
 
 export interface ElectronUserAPI {
   ping: () => Promise<string>
@@ -65,17 +65,13 @@ export interface ActionByAxis {
 }
 
 export interface ButtonAction {
-  type: ButtonActionType
+  type: ButtonActionTypeEnum
   settings: SettingsButtonAction
 }
 export interface AxesAction {
-  type: AxisActionType
+  type: AxisActionTypeEnum
   settings: SettingsAxisAction
 }
 
-export interface SettingsButtonAction {
-  // TODO
-}
-export interface SettingsAxisAction {
-  // TODO
-}
+export interface SettingsButtonAction {}
+export interface SettingsAxisAction {}
