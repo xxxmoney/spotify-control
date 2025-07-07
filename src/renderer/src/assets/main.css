@@ -187,6 +187,21 @@ code {
   margin: 0 auto;
 }
 
+.delimiter, .delimiter-l, .delimiter-xl {
+  width: 100%;
+  background-color: white;
+  margin: var(--space-xs) 0;
+}
+
+.delimiter {
+  height: 1px;
+}
+.delimiter-l {
+  height: 2px;
+}
+.delimiter-xl {
+  height: 4px;
+}
 
 /*
   Home page
@@ -261,9 +276,9 @@ code {
 }
 
 .device-setup-container {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-l);
 }
 
 .device-setup-actions-container {
@@ -273,12 +288,16 @@ code {
 }
 
 .device-setup-actions {
+  width: 95%;
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-l);
 }
 
 .button-selector-container, .axis-selector-container {
+  width: 95%;
+  margin: auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

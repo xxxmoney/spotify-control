@@ -29,7 +29,7 @@ function remove(): void {
     <select v-model="action.type">
       <option disabled :value="AxisActionTypeEnum.None">Please select an option</option>
 
-      <option :value="AxisActionTypeEnum.Volume">Volume Up</option>
+      <option :value="AxisActionTypeEnum.Volume">Volume</option>
     </select>
 
     <button class="action rounded danger" @click="remove">-</button>
