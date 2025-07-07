@@ -45,5 +45,3 @@ function addButtonBinding(): void {
     </button>
   </div>
 </template>
-
-<style scoped></style>
