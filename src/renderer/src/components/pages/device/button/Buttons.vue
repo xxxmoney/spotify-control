@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ButtonActions from '@renderer/components/pages/device/ButtonActions.vue'
+import ButtonActions from '@renderer/components/pages/device/button/ButtonActions.vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed } from 'vue'
 

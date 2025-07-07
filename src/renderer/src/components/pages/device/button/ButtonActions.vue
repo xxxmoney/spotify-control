@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import ButtonAction from '@renderer/components/pages/device/ButtonAction.vue'
+import ButtonAction from '@renderer/components/pages/device/button/ButtonAction.vue'
 import { ButtonActionTypeEnum } from '@renderer/enums/device.enums'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { ButtonAction as ButtonActionType } from '@/shared/types'

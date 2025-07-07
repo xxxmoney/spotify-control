@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { onBeforeMount } from 'vue'
-import ButtonSelector from '@renderer/components/pages/device/ButtonSelector.vue'
-import Buttons from '@renderer/components/pages/device/Buttons.vue'
+import ButtonSelector from '@renderer/components/pages/device/button/ButtonSelector.vue'
+import Buttons from '@renderer/components/pages/device/button/Buttons.vue'
 
 const store = useDeviceStore()
 
