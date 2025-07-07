@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 const store = useDeviceStore()
 
-const button = computed(() => props.button)
+const button = computed(() => props.axis)
 const actions = computed(() => store.currentBindings.buttons[button.value])
 
 function addAction(): void {

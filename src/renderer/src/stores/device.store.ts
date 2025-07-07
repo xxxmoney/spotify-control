@@ -2,7 +2,7 @@ import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
 import { getDeviceId } from '@renderer/helpers/device.helper'
-import { ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
+import { AxisAction, ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 import * as constants from '@renderer/constants/constants'
 import { useStorage } from '@vueuse/core'
@@ -95,6 +95,36 @@ export const useDeviceStore = defineStore('device', () => {
   function addAxisBinding(axis: string): void {
     currentBindings.value.axes[axis] = []
   }
+  function removeAxisBinding(axis: string): void {
+    if (!currentBindings.value.axes[axis]) {
+      throw new Error(`Axis ${axis} is not bound`)
+    }
+
+    delete currentBindings.value.axes[axis]
+  }
+  function updateActionsByAxis(axis: string, actions: AxisAction[]): void {
+    currentBindings.value.axes[axis] = actions
+  }
+  function addActionByAxis(axis: string, action: AxisAction): void {
+    if (!currentBindings.value.axes[axis]) {
+      throw new Error(`Axis ${axis} is not bound`)
+    }
+
+    currentBindings.value.axes[axis].push(action)
+  }
+  function removeActionByAxis(axis: string, action: AxisAction): void {
+    if (!currentBindings.value.axes[axis]) {
+      throw new Error(`Axis ${axis} is not bound`)
+    }
+
+    const index = currentBindings.value.axes[axis].indexOf(action)
+
+    if (index === -1) {
+      throw new Error(`Action ${action} is not bound to axis ${axis}`)
+    }
+
+    currentBindings.value.axes[axis].splice(index, 1)
+  }
 
   function startDeviceStateChecking(): void {
     if (interval.value) {
@@ -147,12 +177,18 @@ export const useDeviceStore = defineStore('device', () => {
     startDeviceStateChecking,
     stopDeviceStateChecking,
     initializeCurrentBindings,
+
     addButtonBinding,
     removeButtonBinding,
-    addAxisBinding,
     updateActionsByButton,
     addActionByButton,
     removeActionByButton,
+
+    addAxisBinding,
+    removeAxisBinding,
+    updateActionsByAxis,
+    addActionByAxis,
+    removeActionByAxis,
 
     getDevices,
     refreshDeviceState
