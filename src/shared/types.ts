@@ -61,14 +61,14 @@ export interface ActionByButton {
   [button: string]: ButtonAction[]
 }
 export interface ActionByAxis {
-  [axis: string]: AxesAction[]
+  [axis: string]: AxisAction[]
 }
 
 export interface ButtonAction {
   type: ButtonActionTypeEnum
   settings: SettingsButtonAction
 }
-export interface AxesAction {
+export interface AxisAction {
   type: AxisActionTypeEnum
   settings: SettingsAxisAction
 }
