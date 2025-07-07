@@ -15,7 +15,7 @@ function removeButton(button: string): void {
 <template>
   <div class="device-setup-actions">
     <template v-for="(_, button) in bindings.buttons" :key="button">
-      <hr class="delimiter" />
+      <hr class="delimiter-s" />
 
       <ButtonActions :button="button as string" @remove="removeButton(button as string)" />
     </template>
