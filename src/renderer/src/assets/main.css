@@ -46,6 +46,7 @@ main {
 footer {
   flex: 0;
   text-align: center;
+  padding-bottom: var(--space-l);
 }
 
 header nav {
