@@ -1,5 +1,5 @@
 import { createMemoryHistory, createRouter } from 'vue-router'
-import * as routeConstants from '@renderer/constants/route.contants'
+import * as routeConstants from '@renderer/constants/route.constants'
 
 import MainLayout from '@renderer/layouts/MainLayout.vue'
 import HomePage from '@renderer/pages/HomePage.vue'

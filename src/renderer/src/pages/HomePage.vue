@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as routeConstants from '@renderer/constants/route.contants'
+import * as routeConstants from '@renderer/constants/route.constants'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
