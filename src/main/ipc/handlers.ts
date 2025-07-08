@@ -10,5 +10,6 @@ export async function getDevices(): Promise<Device[]> {
 }
 
 export async function getDeviceState(deviceIndex): Promise<DeviceState> {
+  // TODO: proper implementation
   return await XInput.getButtonsDown({ gamepad: deviceIndex })
 }
