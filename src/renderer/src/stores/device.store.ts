@@ -69,7 +69,7 @@ export const useDeviceStore = defineStore('device', () => {
     delete currentBindings.value.buttons[button]
   }
   function updateActionsByButton(button: string, actions: ButtonAction[]): void {
-    currentBindings.value[button] = actions
+    currentBindings.value.buttons[button] = actions
   }
   function addActionByButton(button: string, action: ButtonAction): void {
     if (!currentBindings.value.buttons[button]) {

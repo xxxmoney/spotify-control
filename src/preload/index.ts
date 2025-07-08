@@ -7,8 +7,8 @@ import { Device, DeviceState, ElectronUserAPI } from '../shared/types'
 const api: ElectronUserAPI = {
   ping: (): Promise<string> => ipcRenderer.invoke(nameof<ElectronUserAPI>('ping')),
   getDevices: (): Promise<Device[]> => ipcRenderer.invoke(nameof<ElectronUserAPI>('getDevices')),
-  getDeviceState: (): Promise<DeviceState> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'))
+  getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
+    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex)
 
   // Add more APIs here
 }
