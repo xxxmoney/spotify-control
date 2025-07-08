@@ -1,13 +1,20 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
+import * as constants from '../shared/constants'
+import * as handlers from './ipc/handlers'
+import { nameof } from '../shared/helpers'
+import { ElectronUserAPI } from '../shared/types'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: constants.DEFAULT_WIDTH,
+    height: constants.DEFAULT_HEIGHT,
+    minWidth: constants.MIN_WIDTH,
+    minHeight: constants.MIN_HEIGHT,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -35,10 +42,23 @@ function createWindow(): void {
   }
 }
 
+async function installExtensions(): Promise<void> {
+  if (is.dev) {
+    for (const extension of constants.EXTENSIONS) {
+      try {
+        await installExtension(extension)
+        console.log(`Added Extension: ${JSON.stringify(extension)}`)
+      } catch (e) {
+        console.log(`Error occurred while adding extension: ${JSON.stringify(extension)}`, e)
+      }
+    }
+  }
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -49,16 +69,19 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
-
-  createWindow()
+  // Ipc handlers
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), handlers.getDeviceState)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  createWindow()
+  await installExtensions()
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common

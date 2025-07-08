@@ -1,8 +1,17 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { nameof } from '../shared/helpers'
+import { Device, DeviceState, ElectronUserAPI } from '../shared/types'
 
 // Custom APIs for renderer
-const api = {}
+const api: ElectronUserAPI = {
+  ping: (): Promise<string> => ipcRenderer.invoke(nameof<ElectronUserAPI>('ping')),
+  getDevices: (): Promise<Device[]> => ipcRenderer.invoke(nameof<ElectronUserAPI>('getDevices')),
+  getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
+    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex)
+
+  // Add more APIs here
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

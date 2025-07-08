@@ -23,24 +23,31 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
-    "electron-updater": "^6.3.9"
+    "electron-updater": "^6.3.9",
+    "xinput-ffi": "^4.0.2"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "3.0.0",
     "@electron-toolkit/eslint-config-ts": "^3.0.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.3",
+    "@vueuse/core": "^13.2.0",
     "electron": "^35.1.5",
     "electron-builder": "^25.1.8",
+    "electron-devtools-installer": "^4.0.0",
     "electron-vite": "^3.1.0",
     "eslint": "^9.24.0",
     "eslint-plugin-vue": "^10.0.0",
+    "lodash": "^4.17.21",
+    "pinia": "^3.0.2",
     "prettier": "^3.5.3",
     "typescript": "^5.8.3",
     "vite": "^6.2.6",
     "vue": "^3.5.13",
     "vue-eslint-parser": "^10.1.3",
+    "vue-router": "^4.5.1",
     "vue-tsc": "^2.2.8"
   }
 }

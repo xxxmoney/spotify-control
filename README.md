@@ -1,12 +1,17 @@
-# app
+# Spotify Control
 
-An Electron application with Vue and TypeScript
+## Description
+ - A simple application for controlling Spotify playback with XInput devices
+ - For direct input devices, I recommend emulating dinput to xinput via:
+   - Emulate XInput device: [ViGEmBus](https://github.com/nefarius/ViGEmBus)
+   - Bind DirectInput to emulated device:
+     - [UCR](https://github.com/Snoothy/UCR?tab=readme-ov-file#downloads)
+     - [Joystick Gremlin](https://whitemagic.github.io/JoystickGremlin/)
 
-## Recommended IDE Setup
+## Usage
+ - TBD
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
-
-## Project Setup
+## Project Development Setup
 
 ### Install
 

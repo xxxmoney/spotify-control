@@ -15,6 +15,9 @@
   --ev-c-text-2: rgba(235, 235, 245, 0.6);
   --ev-c-text-3: rgba(235, 235, 245, 0.38);
 
+  --ev-c-success: #4caf50;
+  --ev-c-danger: #f44336;
+
   --ev-button-alt-border: transparent;
   --ev-button-alt-text: var(--ev-c-text-1);
   --ev-button-alt-bg: var(--ev-c-gray-3);
@@ -29,6 +32,16 @@
   --color-background-mute: var(--ev-c-black-mute);
 
   --color-text: var(--ev-c-text-1);
+}
+
+:root {
+  --space-xxs: calc(var(--space) * 0.125);
+  --space-xs: calc(var(--space) * 0.25);
+  --space-s: calc(var(--space) * 0.5);
+  --space: 12px;
+  --space-l: calc(var(--space) * 2);
+  --space-xl: calc(var(--space) * 4);
+  --space-xxl: calc(var(--space) * 8);
 }
 
 *,
@@ -64,4 +77,21 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+select {
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  border: none;
+  border-radius: var(--space-xs);
+  padding: var(--space);
+  cursor: pointer;
 }
