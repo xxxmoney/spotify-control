@@ -98,7 +98,7 @@ export async function handleThumbs(thumbs: DeviceThumbs, binding: DeviceBindings
 async function handleButtonActions(buttonActions: ButtonAction[], button: string): Promise<void> {
   if (buttonActions) {
     for (const action of buttonActions) {
-      console.log(`Action '${action.type}' triggered for button ${button}`)
+      console.log(`Action '${action.type}' triggered for button '${button}'`)
 
       switch (action.type) {
         case ButtonActionTypeEnum.VolumeUp:
@@ -108,7 +108,7 @@ async function handleButtonActions(buttonActions: ButtonAction[], button: string
           // TODO: handle volume down action
           break
         default:
-          console.warn(`Unknown action type: '${action.type}' for button ${button}`)
+          console.warn(`Unknown action type: '${action.type}' for button '${button}'`)
           break
       }
     }
@@ -124,7 +124,7 @@ async function handleAxisActions(
 ): Promise<void> {
   for (const action of axisActions) {
     console.log(
-      `Action '${action.type}' triggered for axis ${axis} with value ${value} (${minimumValue} - ${maximumValue})`
+      `Action '${action.type}' triggered for axis '${axis}' with value '${value}' (min: '${minimumValue}', max: '${maximumValue}')`
     )
 
     switch (action.type) {
@@ -132,7 +132,7 @@ async function handleAxisActions(
         // TODO: handle volume action
         break
       default:
-        console.warn(`Unknown action type: '${action.type}' for trigger ${axis}`)
+        console.warn(`Unknown action type: '${action.type}' for trigger '${axis}'`)
         break
     }
   }
