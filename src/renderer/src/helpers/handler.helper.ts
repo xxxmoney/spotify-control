@@ -28,30 +28,23 @@ export async function handleTriggers(
 ): Promise<void> {
   const promises: Promise<void>[] = []
 
+  const values: { axis: string; value: number }[] = []
+
   if (triggers.left && triggers.left.active) {
-    const axis = AXES.LEFT_TRIGGER
-    const actions = binding.axes[axis]
-    if (actions) {
-      promises.push(
-        handleAxisActions(
-          actions,
-          axis,
-          triggers.left.force,
-          AXES_VALUE_RANGES.TRIGGER.MIN,
-          AXES_VALUE_RANGES.TRIGGER.MAX
-        )
-      )
-    }
+    values.push({ axis: AXES.LEFT_TRIGGER, value: triggers.left.force })
   }
   if (triggers.right && triggers.right.active) {
-    const axis = AXES.RIGHT_TRIGGER
-    const actions = binding.axes[axis]
+    values.push({ axis: AXES.RIGHT_TRIGGER, value: triggers.right.force })
+  }
+
+  for (const item of values) {
+    const actions = binding.axes[item.axis]
     if (actions) {
       promises.push(
         handleAxisActions(
           actions,
-          axis,
-          triggers.right.force,
+          item.axis,
+          item.value,
           AXES_VALUE_RANGES.TRIGGER.MIN,
           AXES_VALUE_RANGES.TRIGGER.MAX
         )
@@ -65,30 +58,33 @@ export async function handleTriggers(
 export async function handleThumbs(thumbs: DeviceThumbs, binding: DeviceBindings): Promise<void> {
   const promises: Promise<void>[] = []
 
+  const values: { axis: string; value: number }[] = []
+
   if (thumbs.left) {
-    const axis = AXES.LEFT_X
-    const actions = binding.axes[axis]
-    if (actions) {
-      promises.push(
-        handleAxisActions(
-          actions,
-          axis,
-          thumbs.left.magnitude,
-          AXES_VALUE_RANGES.THUMB.MIN,
-          AXES_VALUE_RANGES.THUMB.MAX
-        )
-      )
+    if (thumbs.left.x) {
+      values.push({ axis: AXES.LEFT_X, value: thumbs.left.x })
+    }
+    if (thumbs.left.y) {
+      values.push({ axis: AXES.LEFT_Y, value: thumbs.left.y })
     }
   }
   if (thumbs.right) {
-    const axis = AXES.RIGHT_X
-    const actions = binding.axes[axis]
+    if (thumbs.right.x) {
+      values.push({ axis: AXES.RIGHT_X, value: thumbs.right.x })
+    }
+    if (thumbs.right.y) {
+      values.push({ axis: AXES.RIGHT_Y, value: thumbs.right.y })
+    }
+  }
+
+  for (const item of values) {
+    const actions = binding.axes[item.axis]
     if (actions) {
       promises.push(
         handleAxisActions(
           actions,
-          axis,
-          thumbs.right.magnitude,
+          item.axis,
+          item.value,
           AXES_VALUE_RANGES.THUMB.MIN,
           AXES_VALUE_RANGES.THUMB.MAX
         )
