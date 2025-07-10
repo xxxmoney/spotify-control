@@ -135,6 +135,7 @@ export const useDeviceStore = defineStore('device', () => {
     interval.value = setInterval(async () => {
       await refreshDeviceState()
 
+      // TODO: handle too frequent checking (thus too frequent actions - maybe queue for actions?)
       await handleDeviceStateChange()
     }, constants.INTERVAL_TIMEOUT)
   }
