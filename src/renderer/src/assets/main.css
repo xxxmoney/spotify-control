@@ -187,7 +187,9 @@ code {
   margin: 0 auto;
 }
 
-.delimiter, .delimiter-l, .delimiter-xl {
+.delimiter,
+.delimiter-l,
+.delimiter-xl {
   width: 100%;
   background-color: white;
   margin: var(--space-xs) 0;
@@ -262,7 +264,6 @@ code {
 }
 
 .device-container {
-
 }
 
 .device-run-container {
@@ -295,7 +296,8 @@ code {
   gap: var(--space-l);
 }
 
-.button-selector-container, .axis-selector-container {
+.button-selector-container,
+.axis-selector-container {
   width: 95%;
   margin: auto;
   display: flex;
@@ -305,13 +307,15 @@ code {
   gap: var(--space-s);
 }
 
-.button-actions-container, .axis-actions-container {
+.button-actions-container,
+.axis-actions-container {
   display: flex;
   flex-direction: column;
   gap: var(--space);
 }
 
-.button-actions-header, .axis-actions-header {
+.button-actions-header,
+.axis-actions-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -319,11 +323,11 @@ code {
   gap: var(--space-s);
 }
 
-.button-action-container, .axis-action-container {
+.button-action-container,
+.axis-action-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: var(--space-s);
 }
-
