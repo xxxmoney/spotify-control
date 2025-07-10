@@ -1,3 +1,3 @@
-export const INTERVAL_TIMEOUT = 1000
+export const INTERVAL_TIMEOUT = 100
 
 export const SETTINGS_KEY = 'settings'

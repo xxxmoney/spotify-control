@@ -98,7 +98,7 @@ export async function handleThumbs(thumbs: DeviceThumbs, binding: DeviceBindings
 async function handleButtonActions(buttonActions: ButtonAction[], button: string): Promise<void> {
   if (buttonActions) {
     for (const action of buttonActions) {
-      console.log(`Action '${action.type}' triggered for button '${button}'`)
+      console.log(`Action '${ButtonActionTypeEnum[action.type]}' triggered for button '${button}'`)
 
       switch (action.type) {
         case ButtonActionTypeEnum.VolumeUp:
@@ -124,7 +124,7 @@ async function handleAxisActions(
 ): Promise<void> {
   for (const action of axisActions) {
     console.log(
-      `Action '${action.type}' triggered for axis '${axis}' with value '${value}' (min: '${minimumValue}', max: '${maximumValue}')`
+      `Action '${AxisActionTypeEnum[action.type]}' triggered for axis '${axis}' with value '${value}' (min: '${minimumValue}', max: '${maximumValue}')`
     )
 
     switch (action.type) {
