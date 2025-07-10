@@ -36,11 +36,7 @@ function addButtonBinding(): void {
       </template>
     </select>
 
-    <button
-      class="action rounded center"
-      :disabled="selectedButton === ''"
-      @click="addButtonBinding"
-    >
+    <button class="action rounded" :disabled="selectedButton === ''" @click="addButtonBinding">
       +
     </button>
   </div>

@@ -36,7 +36,7 @@ function addAxisBinding(): void {
       </template>
     </select>
 
-    <button class="action rounded center" :disabled="selectedAxis === ''" @click="addAxisBinding">
+    <button class="action rounded" :disabled="selectedAxis === ''" @click="addAxisBinding">
       +
     </button>
   </div>
