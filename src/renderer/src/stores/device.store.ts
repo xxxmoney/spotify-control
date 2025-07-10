@@ -1,12 +1,13 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
-import { getDeviceId } from '@renderer/helpers/device.helper'
+import { handleButtons, handleThumbs, handleTriggers } from '@renderer/helpers/handler.helper'
 import { AxisAction, ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 import * as constants from '@renderer/constants/constants'
 import { useStorage } from '@vueuse/core'
 import { SETTINGS_KEY } from '@renderer/constants/constants'
+import { getDeviceId } from '@renderer/helpers/device.helper'
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
@@ -33,7 +34,7 @@ export const useDeviceStore = defineStore('device', () => {
   const currentDevice = computed(() =>
     currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value]
   )
-  const deviceStateDifference = computed<>(() => {
+  const deviceStateDifference = computed(() => {
     if (!deviceStateCurrent.value) {
       return {}
     }
@@ -169,18 +170,28 @@ export const useDeviceStore = defineStore('device', () => {
       return
     }
 
-    // TODO: Handle device state change, e.g., trigger actions based on the current bindings
-    //console.log('Changes detected:', deviceStateDifference.value)
+    const promises: Promise<void>[] = []
 
     // Handle buttons
     if (deviceStateDifference.value.buttons) {
-      // Handle buttons
-      // deviceStateDifference.value.buttons.current
-      // Handle triggers
-      // deviceStateDifference.value.trigger.current
+      promises.push(
+        handleButtons(deviceStateDifference.value.buttons.current, currentBindings.value)
+      )
     }
 
-    // Handle axes (triggers, etc)
+    // Handle triggers
+    if (deviceStateDifference.value.trigger) {
+      promises.push(
+        handleTriggers(deviceStateDifference.value.trigger.current, currentBindings.value)
+      )
+    }
+
+    // Handle thumbs
+    if (deviceStateDifference.value.thumb) {
+      promises.push(handleThumbs(deviceStateDifference.value.thumb.current, currentBindings.value))
+    }
+
+    await Promise.all(promises)
   }
 
   return {

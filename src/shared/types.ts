@@ -16,33 +16,30 @@ export interface Device {
   guid: string[]
 }
 
+export interface DeviceTrigger {
+  active: boolean
+  force: number
+}
+export interface DeviceTriggers {
+  left: DeviceTrigger
+  right: DeviceTrigger
+}
+export interface DeviceThumb {
+  x: number
+  y: number
+  magnitude: number
+  direction: string[]
+}
+export interface DeviceThumbs {
+  left: DeviceThumb
+  right: DeviceThumb
+}
+
 export interface DeviceState {
   packetNumber: number
   buttons: string[] | number
-  trigger: {
-    left: {
-      active: boolean
-      force: number
-    }
-    right: {
-      active: boolean
-      force: number
-    }
-  }
-  thumb: {
-    left: {
-      x: number
-      y: number
-      magnitude: number
-      direction: string[]
-    }
-    right: {
-      x: number
-      y: number
-      magnitude: number
-      direction: string[]
-    }
-  }
+  trigger: DeviceTriggers
+  thumb: DeviceThumbs
 }
 
 export interface Settings {
