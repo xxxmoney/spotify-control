@@ -158,7 +158,7 @@ code {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid var(--ev-button-alt-border);
   text-align: center;
   font-weight: 600;
   white-space: nowrap;
@@ -166,7 +166,6 @@ code {
   padding: 0 var(--space-l);
   line-height: var(--space-xl);
   font-size: 14px;
-  border-color: var(--ev-button-alt-border);
   color: var(--ev-button-alt-text);
   background-color: var(--ev-button-alt-bg);
 }
@@ -304,7 +303,12 @@ code {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-s);
+  gap: var(--space-l);
+}
+
+.button-selector-container select,
+.axis-selector-container select {
+  width: 100%;
 }
 
 .button-actions-container,
