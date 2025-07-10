@@ -28,18 +28,18 @@ export async function handleTriggers(
 ): Promise<void> {
   const promises: Promise<void>[] = []
 
-  if (triggers.left) {
+  if (triggers.left && triggers.left.active) {
     const axis = AXES.LEFT_TRIGGER
     const actions = binding.axes[axis]
     if (actions) {
-      promises.push(handleAxisActions(actions, axis))
+      promises.push(handleAxisActions(actions, axis, triggers.left.force))
     }
   }
-  if (triggers.right) {
+  if (triggers.right && triggers.right.active) {
     const axis = AXES.RIGHT_TRIGGER
     const actions = binding.axes[axis]
     if (actions) {
-      promises.push(handleAxisActions(actions, axis))
+      promises.push(handleAxisActions(actions, axis, triggers.right.force))
     }
   }
 
@@ -53,14 +53,14 @@ export async function handleThumbs(thumbs: DeviceThumbs, binding: DeviceBindings
     const axis = AXES.LEFT_X
     const actions = binding.axes[axis]
     if (actions) {
-      promises.push(handleAxisActions(actions, axis))
+      promises.push(handleAxisActions(actions, axis, thumbs.left.magnitude))
     }
   }
   if (thumbs.right) {
     const axis = AXES.RIGHT_X
     const actions = binding.axes[axis]
     if (actions) {
-      promises.push(handleAxisActions(actions, axis))
+      promises.push(handleAxisActions(actions, axis, thumbs.right.magnitude))
     }
   }
 
@@ -87,11 +87,15 @@ async function handleButtonActions(buttonActions: ButtonAction[], button: string
   }
 }
 
-async function handleAxisActions(axisActions: AxisAction[], axis: string): Promise<void> {
+async function handleAxisActions(
+  axisActions: AxisAction[],
+  axis: string,
+  value: number
+): Promise<void> {
   for (const action of axisActions) {
     switch (action.type) {
       case AxisActionTypeEnum.Volume:
-        console.log(`Action '${action.type}' triggered for left trigger`)
+        console.log(`Action '${action.type}' triggered for axis ${axis} with value ${value}`)
         // TODO: handle volume action
         break
       default:
