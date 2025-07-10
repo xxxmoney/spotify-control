@@ -33,7 +33,7 @@ export const useDeviceStore = defineStore('device', () => {
   const currentDevice = computed(() =>
     currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value]
   )
-  const deviceStateDifference = computed(() => {
+  const deviceStateDifference = computed<>(() => {
     if (!deviceStateCurrent.value) {
       return {}
     }
@@ -133,6 +133,8 @@ export const useDeviceStore = defineStore('device', () => {
 
     interval.value = setInterval(async () => {
       await refreshDeviceState()
+
+      await handleDeviceStateChange()
     }, constants.INTERVAL_TIMEOUT)
   }
   function stopDeviceStateChecking(): void {
@@ -160,6 +162,25 @@ export const useDeviceStore = defineStore('device', () => {
     } finally {
       isLoading.value = false
     }
+  }
+
+  async function handleDeviceStateChange(): Promise<void> {
+    if (!currentDeviceId.value) {
+      return
+    }
+
+    // TODO: Handle device state change, e.g., trigger actions based on the current bindings
+    //console.log('Changes detected:', deviceStateDifference.value)
+
+    // Handle buttons
+    if (deviceStateDifference.value.buttons) {
+      // Handle buttons
+      // deviceStateDifference.value.buttons.current
+      // Handle triggers
+      // deviceStateDifference.value.trigger.current
+    }
+
+    // Handle axes (triggers, etc)
   }
 
   return {
