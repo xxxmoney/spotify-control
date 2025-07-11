@@ -72,3 +72,9 @@ export interface AxisAction {
 
 export interface SettingsButtonAction {}
 export interface SettingsAxisAction {}
+
+export interface SpotifyAuthParams {
+  clientId: string
+  redirectUri: string
+  scope: string
+}
