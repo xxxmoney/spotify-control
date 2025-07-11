@@ -114,18 +114,27 @@ app.on('second-instance', (_, commandLine) => {
   const url = commandLine.pop()?.slice(0, -1)
 
   if (url) {
-    // Parse handler callback name and parameters from the url (after the protocol)
-    const parts = /(?<=:\/\/)([\w|-]+)#?(.+)?/.exec(url) || []
-    const handlerName = parts[1] || ''
-    const urlParamsRaw = parts[2] || ''
+    // The url constructor can parse custom protocols
+    const parsedUrl = new URL(url)
 
-    // handle spotify authorization token
-    switch (handlerName) {
+    // Get the "callback-name" from the hostname part of the url
+    const callbackName = parsedUrl.hostname
+
+    // Get the parameters from the hash (the part after '#')
+    const hash = parsedUrl.hash.substring(1) // Remove the leading '#'
+    const params = new URLSearchParams(hash)
+    const paramsObject = Object.fromEntries(params.entries())
+
+    console.log('Callback Name:', callbackName)
+    console.log('Parsed params:', paramsObject)
+
+    // Handle specific callbacks
+    switch (callbackName) {
       case constants.PROTOCOL_HANDLERS.SPOTIFY_AUTH:
-        protocolHandlers.handleSpotifyAuthCallback(urlParams)
+        protocolHandlers.handleSpotifyAuthCallback(paramsObject)
         break
       default:
-        console.warn(`No handler for protocol: ${handlerName}`)
+        console.warn(`No handler for callback: '${callbackName}'`)
     }
   }
 })
