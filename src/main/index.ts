@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, protocol } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
@@ -7,6 +7,7 @@ import * as constants from '../shared/constants'
 import * as handlers from './ipc/handlers'
 import { nameof } from '../shared/helpers'
 import { ElectronUserAPI } from '../shared/types'
+import * as path from 'node:path'
 
 function createWindow(): void {
   // Create the browser window.
@@ -70,7 +71,9 @@ app.whenReady().then(async () => {
   })
 
   // Set handling of callback for Spotify authorization
-  app.setAsDefaultProtocolClient(constants.SPOTIFY_PROTOCOL)
+  app.setAsDefaultProtocolClient(constants.SPOTIFY_PROTOCOL, process.execPath, [
+    path.resolve(process.argv[1])
+  ])
 
   // Ipc handlers
   ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping)
@@ -84,24 +87,32 @@ app.whenReady().then(async () => {
   })
 
   // Handle protocols
-  protocol.handle(constants.SPOTIFY_PROTOCOL, (request) => {
-    const raw_code = /access_token=([^&]*)/.exec(request.url) || null
-    const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
-
-    if (token) {
-      console.log('Token captured in main process:', token)
-
-      // TODO: send token to renderer process or store it as needed
-    }
-
-    return new Response('<h1>Success</h1>', {
-      headers: { 'content-type': 'text/html' }
-    })
-  })
+  // protocol.handle(constants.SPOTIFY_PROTOCOL, (request) => {
+  //   const raw_code = /access_token=([^&]*)/.exec(request.url) || null
+  //   const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
+  //
+  //   if (token) {
+  //     console.log('Token captured in main process:', token)
+  //
+  //     // TODO: send token to renderer process or store it as needed
+  //   }
+  //
+  //   return new Response('<h1>Success</h1>', {
+  //     headers: { 'content-type': 'text/html' }
+  //   })
+  // })
 
   createWindow()
   await installExtensions()
 })
+
+// --- Single Instance Lock ---
+// This is crucial to ensure that when the OS opens your app via the protocol,
+// it focuses the existing window instead of opening a new one.
+const instanceLock = app.requestSingleInstanceLock()
+if (!instanceLock) {
+  app.quit()
+}
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -109,6 +120,22 @@ app.whenReady().then(async () => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
+  }
+})
+
+// On opening as second instance - presumably via protocol
+app.on('second-instance', (_, commandLine) => {
+  // Handle the protocol URL from the command line (for Windows/Linux)
+  const url = commandLine.pop()?.slice(0, -1)
+  if (url) {
+    const raw_code = /access_token=([^&]*)/.exec(url) || null
+    const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
+
+    if (token) {
+      console.log('Token captured in main process:', token)
+
+      // TODO: send token to renderer process or store it as needed
+    }
   }
 })
 

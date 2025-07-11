@@ -7,7 +7,7 @@ export const MIN_HEIGHT = 600
 
 export const EXTENSIONS = [VUEJS_DEVTOOLS_BETA]
 
-export const SPOTIFY_PROTOCOL = 'app-spotify-control://callback'
+export const SPOTIFY_PROTOCOL = 'app-spotify-control'
 export const SPOTIFY_AUTHORISE_URL = 'https://accounts.spotify.com/authorize'
 export const SPOTIFY_SCOPES = [
   'user-read-private',
