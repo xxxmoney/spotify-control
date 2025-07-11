@@ -71,7 +71,7 @@ app.whenReady().then(async () => {
   })
 
   // Set handling of callback for Spotify authorization
-  app.setAsDefaultProtocolClient(constants.SPOTIFY_PROTOCOL, process.execPath, [
+  app.setAsDefaultProtocolClient(constants.APP_PROTOCOL, process.execPath, [
     path.resolve(process.argv[1])
   ])
 
@@ -107,19 +107,29 @@ app.on('window-all-closed', () => {
   }
 })
 
+function handleSpotifyAuthCallback(url: string): void {
+  const raw_code = /access_token=([^&]*)/.exec(url) || null
+  const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
+
+  if (token) {
+    console.log('Token captured in main process:', token)
+
+    // TODO: send token to renderer process or store it as needed
+  }
+}
+
 // On opening as second instance - via protocol - which was registered above with `setAsDefaultProtocolClient`,
 app.on('second-instance', (_, commandLine) => {
   // Handle the protocol URL from the command line (for Windows/Linux)
   const url = commandLine.pop()?.slice(0, -1)
-  if (url) {
-    const raw_code = /access_token=([^&]*)/.exec(url) || null
-    const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
 
-    if (token) {
-      console.log('Token captured in main process:', token)
+  // Parse handler callback name from url (after //)
+  // For example: app-spotify-control://spotify-auth?access_token=...
+  const handlerName = url?.split('://')[0]
 
-      // TODO: send token to renderer process or store it as needed
-    }
+  // handle spotify authorization token
+  if (handlerName) {
+    handleSpotifyAuthCallback(url)
   }
 })
 
