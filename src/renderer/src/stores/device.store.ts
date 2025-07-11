@@ -1,17 +1,19 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
-import { getDeviceId } from '@renderer/helpers/device.helper'
+import { handleButtons, handleThumbs, handleTriggers } from '@renderer/helpers/handler.helper'
 import { AxisAction, ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
 import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
 import * as constants from '@renderer/constants/constants'
 import { useStorage } from '@vueuse/core'
 import { SETTINGS_KEY } from '@renderer/constants/constants'
+import { getDeviceId } from '@renderer/helpers/device.helper'
 
 export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
 
   const isLoading = ref(false)
+  const isChecking = ref(false)
   const interval = ref(null as null | NodeJS.Timeout)
   const devices = ref([] as Device[])
   const currentDeviceId = ref(null as null | string)
@@ -127,17 +129,34 @@ export const useDeviceStore = defineStore('device', () => {
   }
 
   function startDeviceStateChecking(): void {
-    if (interval.value) {
-      stopDeviceStateChecking()
-    }
+    isChecking.value = true
 
-    interval.value = setInterval(async () => {
+    setDeviceStateCheckingTimeout()
+  }
+
+  function setDeviceStateCheckingTimeout(): void {
+    interval.value = setTimeout(async () => {
+      if (!isChecking.value) {
+        return
+      }
+
       await refreshDeviceState()
+
+      // TODO: handle too frequent checking (thus too frequent actions - maybe queue for actions?)
+      await handleDeviceStateChange()
+
+      if (isChecking.value) {
+        // Restart the interval
+        setDeviceStateCheckingTimeout()
+      }
     }, constants.INTERVAL_TIMEOUT)
   }
+
   function stopDeviceStateChecking(): void {
+    isChecking.value = false
+
     if (interval.value) {
-      clearInterval(interval.value)
+      clearTimeout(interval.value)
       interval.value = null
     }
   }
@@ -160,6 +179,35 @@ export const useDeviceStore = defineStore('device', () => {
     } finally {
       isLoading.value = false
     }
+  }
+
+  async function handleDeviceStateChange(): Promise<void> {
+    if (!currentDeviceId.value) {
+      return
+    }
+
+    const promises: Promise<void>[] = []
+
+    // Handle buttons
+    if (deviceStateDifference.value.buttons) {
+      promises.push(
+        handleButtons(deviceStateDifference.value.buttons.current, currentBindings.value)
+      )
+    }
+
+    // Handle triggers
+    if (deviceStateDifference.value.trigger) {
+      promises.push(
+        handleTriggers(deviceStateDifference.value.trigger.current, currentBindings.value)
+      )
+    }
+
+    // Handle thumbs
+    if (deviceStateDifference.value.thumb) {
+      promises.push(handleThumbs(deviceStateDifference.value.thumb.current, currentBindings.value))
+    }
+
+    await Promise.all(promises)
   }
 
   return {

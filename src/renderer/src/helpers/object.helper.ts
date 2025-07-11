@@ -1,6 +1,6 @@
 import * as _ from 'lodash'
 
-export function getObjectChanges<T>(currentObj: T, lastObj: T): unknown {
+export function getObjectChanges<T>(currentObj: T, lastObj: T): any {
   currentObj = currentObj || ({} as T)
   lastObj = lastObj || ({} as T)
 

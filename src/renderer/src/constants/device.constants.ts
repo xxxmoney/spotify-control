@@ -23,3 +23,14 @@ export const AXES = {
   LEFT_TRIGGER: 'XINPUT_GAMEPAD_LEFT_TRIGGER',
   RIGHT_TRIGGER: 'XINPUT_GAMEPAD_RIGHT_TRIGGER'
 }
+
+export const AXES_VALUE_RANGES = {
+  THUMB: {
+    MIN: -32768,
+    MAX: 32767
+  },
+  TRIGGER: {
+    MIN: 0,
+    MAX: 255
+  }
+}
