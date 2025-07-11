@@ -4,7 +4,8 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
 import * as constants from '../shared/constants'
-import * as handlers from './ipc/handlers'
+import * as ipcHandlers from './ipc/handlers'
+import * as protocolHandlers from './protocol/handlers'
 import { nameof } from '../shared/helpers'
 import { ElectronUserAPI } from '../shared/types'
 import * as path from 'node:path'
@@ -76,9 +77,9 @@ app.whenReady().then(async () => {
   ])
 
   // Ipc handlers
-  ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), handlers.getDeviceState)
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), ipcHandlers.ping)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), ipcHandlers.getDevices)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), ipcHandlers.getDeviceState)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -107,29 +108,25 @@ app.on('window-all-closed', () => {
   }
 })
 
-function handleSpotifyAuthCallback(url: string): void {
-  const raw_code = /access_token=([^&]*)/.exec(url) || null
-  const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
-
-  if (token) {
-    console.log('Token captured in main process:', token)
-
-    // TODO: send token to renderer process or store it as needed
-  }
-}
-
 // On opening as second instance - via protocol - which was registered above with `setAsDefaultProtocolClient`,
 app.on('second-instance', (_, commandLine) => {
-  // Handle the protocol URL from the command line (for Windows/Linux)
+  // Handle the protocol url from the command line (for Windows/Linux)
   const url = commandLine.pop()?.slice(0, -1)
 
-  // Parse handler callback name from url (after //)
-  // For example: app-spotify-control://spotify-auth?access_token=...
-  const handlerName = url?.split('://')[0]
+  if (url) {
+    // Parse handler callback name and parameters from the url (after the protocol)
+    const parts = /(?<=:\/\/)([\w|-]+)#?(.+)?/.exec(url) || []
+    const handlerName = parts[1] || ''
+    const urlParamsRaw = parts[2] || ''
 
-  // handle spotify authorization token
-  if (handlerName) {
-    handleSpotifyAuthCallback(url)
+    // handle spotify authorization token
+    switch (handlerName) {
+      case constants.PROTOCOL_HANDLERS.SPOTIFY_AUTH:
+        protocolHandlers.handleSpotifyAuthCallback(urlParams)
+        break
+      default:
+        console.warn(`No handler for protocol: ${handlerName}`)
+    }
   }
 })
 
