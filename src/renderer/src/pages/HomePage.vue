@@ -7,6 +7,8 @@ const router = useRouter()
 async function goToDevices(): Promise<void> {
   await router.push({ name: routeConstants.DEVICES })
 }
+
+// TODO: on mounted do authorise - add to store, store token, create instance of spotify-web-api-js
 </script>
 
 <template>
