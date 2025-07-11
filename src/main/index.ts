@@ -107,7 +107,7 @@ app.on('window-all-closed', () => {
   }
 })
 
-// On opening as second instance - presumably via protocol
+// On opening as second instance - via protocol - which was registered above with `setAsDefaultProtocolClient`,
 app.on('second-instance', (_, commandLine) => {
   // Handle the protocol URL from the command line (for Windows/Linux)
   const url = commandLine.pop()?.slice(0, -1)
