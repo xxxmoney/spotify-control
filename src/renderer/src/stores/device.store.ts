@@ -13,6 +13,7 @@ export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
 
   const isLoading = ref(false)
+  const isChecking = ref(false)
   const interval = ref(null as null | NodeJS.Timeout)
   const devices = ref([] as Device[])
   const currentDeviceId = ref(null as null | string)
@@ -128,20 +129,34 @@ export const useDeviceStore = defineStore('device', () => {
   }
 
   function startDeviceStateChecking(): void {
-    if (interval.value) {
-      stopDeviceStateChecking()
-    }
+    isChecking.value = true
 
-    interval.value = setInterval(async () => {
+    setDeviceStateCheckingTimeout()
+  }
+
+  function setDeviceStateCheckingTimeout(): void {
+    interval.value = setTimeout(async () => {
+      if (!isChecking.value) {
+        return
+      }
+
       await refreshDeviceState()
 
       // TODO: handle too frequent checking (thus too frequent actions - maybe queue for actions?)
       await handleDeviceStateChange()
+
+      if (isChecking.value) {
+        // Restart the interval
+        setDeviceStateCheckingTimeout()
+      }
     }, constants.INTERVAL_TIMEOUT)
   }
+
   function stopDeviceStateChecking(): void {
+    isChecking.value = false
+
     if (interval.value) {
-      clearInterval(interval.value)
+      clearTimeout(interval.value)
       interval.value = null
     }
   }
