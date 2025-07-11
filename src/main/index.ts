@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, protocol } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
@@ -69,6 +69,9 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
+  // Set handling of callback for Spotify authorization
+  app.setAsDefaultProtocolClient(constants.SPOTIFY_PROTOCOL)
+
   // Ipc handlers
   ipcMain.handle(nameof<ElectronUserAPI>('ping'), handlers.ping)
   ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), handlers.getDevices)
@@ -78,6 +81,22 @@ app.whenReady().then(async () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+  })
+
+  // Handle protocols
+  protocol.handle(constants.SPOTIFY_PROTOCOL, (request) => {
+    const raw_code = /access_token=([^&]*)/.exec(request.url) || null
+    const token = raw_code && raw_code.length > 1 ? raw_code[1] : null
+
+    if (token) {
+      console.log('Token captured in main process:', token)
+
+      // TODO: send token to renderer process or store it as needed
+    }
+
+    return new Response('<h1>Success</h1>', {
+      headers: { 'content-type': 'text/html' }
+    })
   })
 
   createWindow()
