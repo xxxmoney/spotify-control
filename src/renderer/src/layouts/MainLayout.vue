@@ -5,12 +5,12 @@ import { computed } from 'vue'
 
 const checkingStore = useCheckingStore()
 
-const isRunning = computed(() => checkingStore.isChecking)
+const isChecking = computed(() => checkingStore.isChecking)
 </script>
 
 <template>
   <header>
-    <NavBar v-if="!isRunning" />
+    <NavBar v-if="!isChecking" />
   </header>
 
   <main>
