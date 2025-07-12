@@ -3,12 +3,12 @@ import AxisActions from '@renderer/components/pages/device/axis/AxisActions.vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed } from 'vue'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
-const bindings = computed(() => store.currentBindings)
+const bindings = computed(() => deviceStore.currentBindings)
 
 function removeAxis(axis: string): void {
-  store.removeAxisBinding(axis)
+  deviceStore.removeAxisBinding(axis)
 }
 </script>
 

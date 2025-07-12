@@ -6,17 +6,17 @@ import RefreshIcon from '@renderer/components/reusable/RefreshIcon.vue'
 import { Device } from '@/shared/types'
 
 const router = useRouter()
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
-const isLoading = computed(() => store.isLoading)
-const devices = computed(() => store.devices)
+const isLoading = computed(() => deviceStore.isLoading)
+const devices = computed(() => deviceStore.devices)
 
 async function getDevices(): Promise<void> {
-  await store.getDevices()
+  await deviceStore.getDevices()
 }
 
 async function goToDevice(device: Device): Promise<void> {
-  store.setCurrentDevice(device)
+  deviceStore.setCurrentDevice(device)
 
   await router.push({
     name: 'device'

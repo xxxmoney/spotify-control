@@ -13,19 +13,19 @@ const emit = defineEmits<{
   (e: 'remove'): void
 }>()
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
 const axis = computed(() => props.axis)
-const actions = computed(() => store.currentBindings.axes[axis.value])
+const actions = computed(() => deviceStore.currentBindings.axes[axis.value])
 
 function addAction(): void {
-  store.addActionByAxis(axis.value, {
+  deviceStore.addActionByAxis(axis.value, {
     type: AxisActionTypeEnum.None,
     settings: {}
   })
 }
 function removeAction(axisAction: AxisActionType): void {
-  store.removeActionByAxis(axis.value, axisAction)
+  deviceStore.removeActionByAxis(axis.value, axisAction)
 }
 function removeAxis(): void {
   emit('remove')

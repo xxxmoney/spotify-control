@@ -4,13 +4,13 @@ import DeviceRun from '@renderer/components/pages/device/DeviceRun.vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed, onUnmounted } from 'vue'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
-const isRunning = computed(() => store.isRunning)
-const deviceName = computed(() => store.currentDevice!.name)
+const isRunning = computed(() => deviceStore.isRunning)
+const deviceName = computed(() => deviceStore.currentDevice!.name)
 
 onUnmounted(() => {
-  store.resetCurrentDevice()
+  deviceStore.resetCurrentDevice()
 })
 </script>
 

@@ -4,13 +4,13 @@ import { computed, ref } from 'vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import * as _ from 'lodash'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
 const selectedButton = ref('')
 
 const allButtons = Object.values(BUTTONS)
 const usedButtons = computed(() => {
-  return Object.keys(store.currentBindings.buttons)
+  return Object.keys(deviceStore.currentBindings.buttons)
 })
 
 const availableButtons = computed(() => _.difference(allButtons, usedButtons.value))
@@ -20,7 +20,7 @@ function resetSelectedButton(): void {
 }
 
 function addButtonBinding(): void {
-  store.addButtonBinding(selectedButton.value)
+  deviceStore.addButtonBinding(selectedButton.value)
 
   resetSelectedButton()
 }

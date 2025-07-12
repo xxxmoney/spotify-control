@@ -13,19 +13,19 @@ const emit = defineEmits<{
   (e: 'remove'): void
 }>()
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
 const button = computed(() => props.button)
-const actions = computed(() => store.currentBindings.buttons[button.value])
+const actions = computed(() => deviceStore.currentBindings.buttons[button.value])
 
 function addAction(): void {
-  store.addActionByButton(button.value, {
+  deviceStore.addActionByButton(button.value, {
     type: ButtonActionTypeEnum.None,
     settings: {}
   })
 }
 function removeAction(buttonAction: ButtonActionType): void {
-  store.removeActionByButton(button.value, buttonAction)
+  deviceStore.removeActionByButton(button.value, buttonAction)
 }
 function removeButton(): void {
   emit('remove')

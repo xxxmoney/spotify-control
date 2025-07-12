@@ -6,10 +6,10 @@ import Buttons from '@renderer/components/pages/device/button/Buttons.vue'
 import AxisSelector from '@renderer/components/pages/device/axis/AxisSelector.vue'
 import Axes from '@renderer/components/pages/device/axis/Axes.vue'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
 onBeforeMount(() => {
-  store.initializeCurrentBindings()
+  deviceStore.initializeCurrentBindings()
 })
 </script>
 

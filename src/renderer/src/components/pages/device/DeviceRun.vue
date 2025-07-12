@@ -2,20 +2,20 @@
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed, onMounted } from 'vue'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
-const isRunning = computed(() => store.isRunning)
+const isRunning = computed(() => deviceStore.isRunning)
 
 function switchDeviceStateChecking(): void {
-  if (store.isRunning) {
-    store.stopDeviceStateChecking()
+  if (deviceStore.isRunning) {
+    deviceStore.stopDeviceStateChecking()
   } else {
-    store.startDeviceStateChecking()
+    deviceStore.startDeviceStateChecking()
   }
 }
 
 onMounted(async () => {
-  await store.refreshDeviceState()
+  await deviceStore.refreshDeviceState()
 })
 </script>
 

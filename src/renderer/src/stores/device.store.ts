@@ -1,10 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useElectronAPI } from '@renderer/composables/api.comp'
-import { handleButtons, handleThumbs, handleTriggers } from '@renderer/helpers/handler.helper'
-import { AxisAction, ButtonAction, Device, DeviceState, Settings } from '@/shared/types'
-import { getObjectChanges, cloneDeep } from '@renderer/helpers/object.helper'
-import * as constants from '@renderer/constants/constants'
+import { AxisAction, ButtonAction, Device, Settings } from '@/shared/types'
 import { useStorage } from '@vueuse/core'
 import { SETTINGS_KEY } from '@renderer/constants/constants'
 import { getDeviceId } from '@renderer/helpers/device.helper'
@@ -13,12 +10,8 @@ export const useDeviceStore = defineStore('device', () => {
   const api = useElectronAPI()
 
   const isLoading = ref(false)
-  const isChecking = ref(false)
-  const interval = ref(null as null | NodeJS.Timeout)
   const devices = ref([] as Device[])
   const currentDeviceId = ref(null as null | string)
-  const deviceStateLast = ref(null as null | DeviceState)
-  const deviceStateCurrent = ref(null as null | DeviceState)
   const settings = useStorage<Settings>(SETTINGS_KEY, { bindings: {} } as Settings)
   const currentBindings = computed({
     get: () => settings.value.bindings[currentDeviceId.value ?? ''],
@@ -27,21 +20,12 @@ export const useDeviceStore = defineStore('device', () => {
     }
   })
 
-  // Whether state checking is running or not
-  const isRunning = computed(() => !!interval.value)
   const currentDeviceIndex = computed(() =>
     devices.value.findIndex((device) => getDeviceId(device) === currentDeviceId.value)
   )
   const currentDevice = computed(() =>
     currentDeviceIndex.value === -1 ? null : devices.value[currentDeviceIndex.value]
   )
-  const deviceStateDifference = computed(() => {
-    if (!deviceStateCurrent.value) {
-      return {}
-    }
-
-    return getObjectChanges(deviceStateCurrent.value, deviceStateLast.value)
-  })
 
   function setCurrentDevice(device: Device): void {
     currentDeviceId.value = getDeviceId(device)
@@ -128,39 +112,6 @@ export const useDeviceStore = defineStore('device', () => {
     currentBindings.value.axes[axis].splice(index, 1)
   }
 
-  function startDeviceStateChecking(): void {
-    isChecking.value = true
-
-    setDeviceStateCheckingTimeout()
-  }
-
-  function setDeviceStateCheckingTimeout(): void {
-    interval.value = setTimeout(async () => {
-      if (!isChecking.value) {
-        return
-      }
-
-      await refreshDeviceState()
-
-      // TODO: handle too frequent checking (thus too frequent actions - maybe queue for actions?)
-      await handleDeviceStateChange()
-
-      if (isChecking.value) {
-        // Restart the interval
-        setDeviceStateCheckingTimeout()
-      }
-    }, constants.INTERVAL_TIMEOUT)
-  }
-
-  function stopDeviceStateChecking(): void {
-    isChecking.value = false
-
-    if (interval.value) {
-      clearTimeout(interval.value)
-      interval.value = null
-    }
-  }
-
   async function getDevices(): Promise<void> {
     devices.value = []
     try {
@@ -171,59 +122,16 @@ export const useDeviceStore = defineStore('device', () => {
     }
   }
 
-  async function refreshDeviceState(): Promise<void> {
-    try {
-      isLoading.value = true
-      deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
-      deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
-    } finally {
-      isLoading.value = false
-    }
-  }
-
-  async function handleDeviceStateChange(): Promise<void> {
-    if (!currentDeviceId.value) {
-      return
-    }
-
-    const promises: Promise<void>[] = []
-
-    // Handle buttons
-    if (deviceStateDifference.value.buttons) {
-      promises.push(
-        handleButtons(deviceStateDifference.value.buttons.current, currentBindings.value)
-      )
-    }
-
-    // Handle triggers
-    if (deviceStateDifference.value.trigger) {
-      promises.push(
-        handleTriggers(deviceStateDifference.value.trigger.current, currentBindings.value)
-      )
-    }
-
-    // Handle thumbs
-    if (deviceStateDifference.value.thumb) {
-      promises.push(handleThumbs(deviceStateDifference.value.thumb.current, currentBindings.value))
-    }
-
-    await Promise.all(promises)
-  }
-
   return {
     isLoading,
-    isRunning,
     devices,
+    currentDeviceId,
+    currentDeviceIndex,
     currentDevice,
-    deviceStateLast,
-    deviceStateCurrent,
-    deviceStateDifference,
     currentBindings,
 
     setCurrentDevice,
     resetCurrentDevice,
-    startDeviceStateChecking,
-    stopDeviceStateChecking,
     initializeCurrentBindings,
 
     addButtonBinding,
@@ -238,7 +146,6 @@ export const useDeviceStore = defineStore('device', () => {
     addActionByAxis,
     removeActionByAxis,
 
-    getDevices,
-    refreshDeviceState
+    getDevices
   }
 })

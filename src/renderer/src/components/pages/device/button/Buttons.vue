@@ -3,12 +3,12 @@ import ButtonActions from '@renderer/components/pages/device/button/ButtonAction
 import { useDeviceStore } from '@renderer/stores/device.store'
 import { computed } from 'vue'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
-const bindings = computed(() => store.currentBindings)
+const bindings = computed(() => deviceStore.currentBindings)
 
 function removeButton(button: string): void {
-  store.removeButtonBinding(button)
+  deviceStore.removeButtonBinding(button)
 }
 </script>
 

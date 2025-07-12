@@ -4,13 +4,13 @@ import { computed, ref } from 'vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
 import * as _ from 'lodash'
 
-const store = useDeviceStore()
+const deviceStore = useDeviceStore()
 
 const selectedAxis = ref('')
 
 const allAxes = Object.values(AXES)
 const usedAxes = computed(() => {
-  return Object.keys(store.currentBindings.axes)
+  return Object.keys(deviceStore.currentBindings.axes)
 })
 
 const availableAxes = computed(() => _.difference(allAxes, usedAxes.value))
@@ -20,7 +20,7 @@ function resetSelectedAxis(): void {
 }
 
 function addAxisBinding(): void {
-  store.addAxisBinding(selectedAxis.value)
+  deviceStore.addAxisBinding(selectedAxis.value)
 
   resetSelectedAxis()
 }
