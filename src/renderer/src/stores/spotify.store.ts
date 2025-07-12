@@ -16,6 +16,7 @@ export const useSpotifyStore = defineStore('counter', () => {
   }
 
   async function authorise(): Promise<void> {
+    // TODO: proper calling of authorise
     await webApi.authorise({
       clientId: null,
       redirectUri: null,
