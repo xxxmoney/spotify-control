@@ -40,7 +40,7 @@ export const useCheckingStore = defineStore('checking', () => {
         return
       }
 
-      await refreshDeviceState()
+      await refetchDeviceState()
 
       // TODO: handle too frequent checking (thus too frequent actions - maybe queue for actions?)
       await handleDeviceStateChange()
@@ -61,7 +61,7 @@ export const useCheckingStore = defineStore('checking', () => {
     }
   }
 
-  async function refreshDeviceState(): Promise<void> {
+  async function refetchDeviceState(): Promise<void> {
     deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
     deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
   }
@@ -103,6 +103,6 @@ export const useCheckingStore = defineStore('checking', () => {
 
     startDeviceStateChecking,
     stopDeviceStateChecking,
-    refreshDeviceState
+    refreshDeviceState: refetchDeviceState
   }
 })

@@ -112,7 +112,7 @@ export const useDeviceStore = defineStore('device', () => {
     currentBindings.value.axes[axis].splice(index, 1)
   }
 
-  async function getDevices(): Promise<void> {
+  async function fetchDevices(): Promise<void> {
     devices.value = []
     try {
       isLoading.value = true
@@ -146,6 +146,6 @@ export const useDeviceStore = defineStore('device', () => {
     addActionByAxis,
     removeActionByAxis,
 
-    getDevices
+    getDevices: fetchDevices
   }
 })
