@@ -17,7 +17,6 @@ export const useCheckingStore = defineStore('checking', () => {
   const deviceStateCurrent = ref(null as null | DeviceState)
 
   // Whether state checking is running or not
-  const isRunning = computed(() => !!interval.value)
   const deviceStateDifference = computed(() => {
     if (!deviceStateCurrent.value) {
       return {}
@@ -97,7 +96,6 @@ export const useCheckingStore = defineStore('checking', () => {
   }
 
   return {
-    isRunning,
     isChecking,
     deviceStateLast,
     deviceStateCurrent,

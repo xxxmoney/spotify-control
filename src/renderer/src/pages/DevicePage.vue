@@ -2,11 +2,13 @@
 import DeviceSetup from '@renderer/components/pages/device/DeviceSetup.vue'
 import DeviceRun from '@renderer/components/pages/device/DeviceRun.vue'
 import { useDeviceStore } from '@renderer/stores/device.store'
+import { useCheckingStore } from '@renderer/stores/checking.store'
 import { computed, onUnmounted } from 'vue'
 
 const deviceStore = useDeviceStore()
+const checkingStore = useCheckingStore()
 
-const isRunning = computed(() => deviceStore.isRunning)
+const isChecking = computed(() => checkingStore.isChecking)
 const deviceName = computed(() => deviceStore.currentDevice!.name)
 
 onUnmounted(() => {
@@ -16,10 +18,10 @@ onUnmounted(() => {
 
 <template>
   <div class="device-page">
-    <h1 class="title" :class="{ pulse: isRunning }">{{ deviceName }}</h1>
+    <h1 class="title" :class="{ pulse: isChecking }">{{ deviceName }}</h1>
 
     <DeviceRun />
-    <DeviceSetup v-if="!isRunning" />
+    <DeviceSetup v-if="!isChecking" />
     <div v-else>
       <h2 class="subtitle pulse">Running...</h2>
     </div>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import NavBar from '@renderer/components/layout/NavBar.vue'
-import { useDeviceStore } from '@renderer/stores/device.store'
+import { useCheckingStore } from '@renderer/stores/checking.store'
 import { computed } from 'vue'
 
-const store = useDeviceStore()
+const checkingStore = useCheckingStore()
 
-const isRunning = computed(() => store.isRunning)
+const isRunning = computed(() => checkingStore.isChecking)
 </script>
 
 <template>
