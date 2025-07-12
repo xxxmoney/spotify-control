@@ -4,10 +4,10 @@ import { computed, onMounted } from 'vue'
 
 const checkingStore = useCheckingStore()
 
-const isRunning = computed(() => checkingStore.isRunning)
+const isChecking = computed(() => checkingStore.isChecking)
 
 function switchDeviceStateChecking(): void {
-  if (checkingStore.isRunning) {
+  if (checkingStore.isChecking) {
     checkingStore.stopDeviceStateChecking()
   } else {
     checkingStore.startDeviceStateChecking()
@@ -21,8 +21,12 @@ onMounted(async () => {
 
 <template>
   <div class="device-run-container">
-    <button class="action rounded" :class="{ pulse: isRunning }" @click="switchDeviceStateChecking">
-      <span class="uppercase">{{ isRunning ? 'stop' : 'start' }}</span>
+    <button
+      class="action rounded"
+      :class="{ pulse: isChecking }"
+      @click="switchDeviceStateChecking"
+    >
+      <span class="uppercase">{{ isChecking ? 'stop' : 'start' }}</span>
     </button>
   </div>
 </template>
