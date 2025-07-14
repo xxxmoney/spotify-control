@@ -6,8 +6,6 @@ import { useEnv } from '@renderer/composables/env.comp'
 import { useConstants } from '@renderer/composables/constants.comp'
 
 export const useSpotifyStore = defineStore('spotify', () => {
-  const constants = useConstants()
-
   const controlApi = new SpotifyWebApi()
 
   const isAuthorised = ref(false)
@@ -19,7 +17,10 @@ export const useSpotifyStore = defineStore('spotify', () => {
   }
 
   async function authorise(): Promise<void> {
+    const constants = useConstants()
     const env = useEnv()
+
+    console.log(constants)
 
     await webApi.authorise({
       clientId: env.spotifyClientId,
