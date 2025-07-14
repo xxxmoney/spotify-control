@@ -7,6 +7,7 @@ export async function authorise(params: SpotifyAuthParams): Promise<void> {
   const queryString = new URLSearchParams({ ...params }).toString()
   const url = `${constants.SPOTIFY_AUTHORISE_URL}?${queryString}`
 
+  // TODO: probably use through ipc rather then fetch
   const response = await fetch(url, {
     method: 'GET',
     headers: {
