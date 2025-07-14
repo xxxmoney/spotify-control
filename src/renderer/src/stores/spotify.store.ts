@@ -7,6 +7,8 @@ import { useConstants } from '@renderer/composables/constants.comp'
 
 export const useSpotifyStore = defineStore('spotify', () => {
   const controlApi = new SpotifyWebApi()
+  const constants = useConstants()
+  const env = useEnv()
 
   const isAuthorised = ref(false)
   const token = ref<string | null>(null)
@@ -17,9 +19,6 @@ export const useSpotifyStore = defineStore('spotify', () => {
   }
 
   async function authorise(): Promise<void> {
-    const constants = useConstants()
-    const env = useEnv()
-
     await webApi.authorise({
       clientId: env.spotifyClientId,
       redirectUri: constants.SPOTIFY_REDIRECT_URL,
