@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { nameof } from '../shared/helpers'
 import { Device, DeviceState, ElectronUserAPI, Env } from '../shared/types'
-import * as constants from '@/shared/constants'
+import * as constants from '../shared/constants'
 
 // Custom APIs for renderer
 const api: ElectronUserAPI = {
