@@ -23,3 +23,10 @@ export const SPOTIFY_SCOPES = [
   'user-modify-playback-state',
   'streaming'
 ]
+export const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
+
+export const BRIDGE_EXPOSE = {
+  ELECTRON: 'electron',
+  API: 'api',
+  ENV: 'env'
+}

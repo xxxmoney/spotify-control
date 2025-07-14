@@ -78,3 +78,7 @@ export interface SpotifyAuthParams {
   redirectUri: string
   scope: string
 }
+
+export interface Env {
+  spotifyClientId: string
+}

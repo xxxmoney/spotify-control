@@ -1,3 +1,6 @@
+// Load .env file, should be called first
+import 'dotenv/config'
+
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -7,7 +10,7 @@ import * as constants from '../shared/constants'
 import * as ipcHandlers from './ipc/handlers'
 import * as protocolHandlers from './protocol/handlers'
 import { nameof } from '../shared/helpers'
-import { ElectronUserAPI } from '../shared/types'
+import { ElectronUserAPI, Env } from '../shared/types'
 import * as path from 'node:path'
 
 function createWindow(): void {

@@ -1,7 +1,8 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { nameof } from '../shared/helpers'
-import { Device, DeviceState, ElectronUserAPI } from '../shared/types'
+import { Device, DeviceState, ElectronUserAPI, Env } from '../shared/types'
+import * as constants from '@/shared/constants'
 
 // Custom APIs for renderer
 const api: ElectronUserAPI = {
@@ -9,8 +10,9 @@ const api: ElectronUserAPI = {
   getDevices: (): Promise<Device[]> => ipcRenderer.invoke(nameof<ElectronUserAPI>('getDevices')),
   getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
     ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex)
-
-  // Add more APIs here
+}
+const env: Env = {
+  spotifyClientId: process.env.SPOTIFY_CLIENT_ID as string
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -18,8 +20,13 @@ const api: ElectronUserAPI = {
 // just add to the DOM global.
 if (process.contextIsolated) {
   try {
-    contextBridge.exposeInMainWorld('electron', electronAPI)
-    contextBridge.exposeInMainWorld('api', api)
+    contextBridge.exposeInMainWorld(constants.BRIDGE_EXPOSE.ELECTRON, electronAPI)
+
+    // Expose main application API
+    contextBridge.exposeInMainWorld(constants.BRIDGE_EXPOSE.API, api)
+
+    // Expose environment variables
+    contextBridge.exposeInMainWorld(constants.BRIDGE_EXPOSE.ENV, env)
   } catch (error) {
     console.error(error)
   }
@@ -28,4 +35,6 @@ if (process.contextIsolated) {
   window.electron = electronAPI
   // @ts-ignore (define in dts)
   window.api = api
+  // @ts-ignore (define in dts)
+  window.env = env
 }

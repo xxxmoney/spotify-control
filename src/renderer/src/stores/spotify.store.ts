@@ -2,9 +2,10 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import * as webApi from '@renderer/api/spotify.api'
 import SpotifyWebApi from 'spotify-web-api-js'
-import { SPOTIFY_SCOPES } from '@/shared/constants'
+import { SPOTIFY_REDIRECT_URL, SPOTIFY_SCOPES } from '@/shared/constants'
+import { useEnv } from '@renderer/composables/env.comp'
 
-export const useSpotifyStore = defineStore('counter', () => {
+export const useSpotifyStore = defineStore('spotify', () => {
   const controlApi = new SpotifyWebApi()
 
   const isAuthorised = ref(false)
@@ -16,20 +17,21 @@ export const useSpotifyStore = defineStore('counter', () => {
   }
 
   async function authorise(): Promise<void> {
-    // TODO: proper calling of authorise
+    const env = useEnv()
+
     await webApi.authorise({
-      clientId: null,
-      redirectUri: null,
+      clientId: env.spotifyClientId,
+      redirectUri: SPOTIFY_REDIRECT_URL,
       scope: SPOTIFY_SCOPES.join(' ')
     })
   }
 
   return {
-    api: controlApi,
+    controlApi,
 
     isAuthorised,
 
-    authorise,
-    setToken
+    setToken,
+    authorise
   }
 })
