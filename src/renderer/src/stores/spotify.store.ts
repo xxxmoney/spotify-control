@@ -20,8 +20,6 @@ export const useSpotifyStore = defineStore('spotify', () => {
     const constants = useConstants()
     const env = useEnv()
 
-    console.log(constants)
-
     await webApi.authorise({
       clientId: env.spotifyClientId,
       redirectUri: constants.SPOTIFY_REDIRECT_URL,
