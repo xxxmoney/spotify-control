@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { nameof } from '../shared/helpers'
 import { Device, DeviceState, ElectronUserAPI, Env } from '../shared/types'
-import * as constants from '../shared/constants'
+import constants from '../shared/constants'
 
 // Custom APIs for renderer
 const api: ElectronUserAPI = {
@@ -27,6 +27,9 @@ if (process.contextIsolated) {
 
     // Expose environment variables
     contextBridge.exposeInMainWorld(constants.BRIDGE_EXPOSE.ENV, env)
+
+    // Expose constants
+    contextBridge.exposeInMainWorld(constants.BRIDGE_EXPOSE.CONSTANTS, constants)
   } catch (error) {
     console.error(error)
   }
@@ -37,4 +40,6 @@ if (process.contextIsolated) {
   window.api = api
   // @ts-ignore (define in dts)
   window.env = env
+  // @ts-ignore (define in dts)
+  window.constants = constants
 }

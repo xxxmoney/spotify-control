@@ -1,9 +1,11 @@
 import { SpotifyAuthParams } from '@/shared/types'
-import { SPOTIFY_AUTHORISE_URL } from '@/shared/constants'
+import { useConstants } from '@renderer/composables/constants.comp'
 
 export async function authorise(params: SpotifyAuthParams): Promise<void> {
+  const constants = useConstants()
+
   const queryString = new URLSearchParams({ ...params }).toString()
-  const url = `${SPOTIFY_AUTHORISE_URL}?${queryString}`
+  const url = `${constants.SPOTIFY_AUTHORISE_URL}?${queryString}`
 
   const response = await fetch(url, {
     method: 'GET',

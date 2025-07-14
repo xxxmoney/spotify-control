@@ -1,20 +1,21 @@
 import { VUEJS_DEVTOOLS_BETA } from 'electron-devtools-installer'
+import { Constants } from '@/shared/types'
 
-export const DEFAULT_WIDTH = 800
-export const DEFAULT_HEIGHT = 600
-export const MIN_WIDTH = 400
-export const MIN_HEIGHT = 600
+const DEFAULT_WIDTH = 800
+const DEFAULT_HEIGHT = 600
+const MIN_WIDTH = 400
+const MIN_HEIGHT = 600
 
-export const EXTENSIONS = [VUEJS_DEVTOOLS_BETA]
+const EXTENSIONS = [VUEJS_DEVTOOLS_BETA]
 
-export const APP_PROTOCOL = 'app-spotify-control'
+const APP_PROTOCOL = 'app-spotify-control'
 
-export const PROTOCOL_HANDLERS = {
+const PROTOCOL_HANDLERS = {
   SPOTIFY_AUTH: 'spotify-auth'
 }
 
-export const SPOTIFY_AUTHORISE_URL = 'https://accounts.spotify.com/authorize'
-export const SPOTIFY_SCOPES = [
+const SPOTIFY_AUTHORISE_URL = 'https://accounts.spotify.com/authorize'
+const SPOTIFY_SCOPES = [
   'user-read-private',
   'user-read-email',
   'user-library-read',
@@ -23,10 +24,31 @@ export const SPOTIFY_SCOPES = [
   'user-modify-playback-state',
   'streaming'
 ]
-export const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
+const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
 
-export const BRIDGE_EXPOSE = {
+const BRIDGE_EXPOSE = {
   ELECTRON: 'electron',
   API: 'api',
-  ENV: 'env'
+  ENV: 'env',
+  CONSTANTS: 'constants'
 }
+
+const constants: Constants = {
+  DEFAULT_WIDTH,
+  DEFAULT_HEIGHT,
+  MIN_WIDTH,
+  MIN_HEIGHT,
+
+  EXTENSIONS,
+
+  APP_PROTOCOL,
+
+  PROTOCOL_HANDLERS,
+
+  SPOTIFY_AUTHORISE_URL,
+  SPOTIFY_SCOPES,
+  SPOTIFY_REDIRECT_URL,
+
+  BRIDGE_EXPOSE
+}
+export default constants

@@ -1,12 +1,12 @@
 // Load .env file, should be called first
-//import 'dotenv/config'
+import 'dotenv/config'
 
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
-import * as constants from '../shared/constants'
+import constants from '../shared/constants'
 import * as ipcHandlers from './ipc/handlers'
 import * as protocolHandlers from './protocol/handlers'
 import { nameof } from '../shared/helpers'

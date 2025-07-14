@@ -1,4 +1,5 @@
 import { AxisActionTypeEnum, ButtonActionTypeEnum } from '@/renderer/src/enums/device.enums'
+import { ExtensionReference } from 'electron-devtools-installer'
 
 export interface ElectronUserAPI {
   ping: () => Promise<string>
@@ -81,4 +82,30 @@ export interface SpotifyAuthParams {
 
 export interface Env {
   spotifyClientId: string
+}
+
+export interface Constants {
+  DEFAULT_WIDTH: number
+  DEFAULT_HEIGHT: number
+  MIN_WIDTH: number
+  MIN_HEIGHT: number
+
+  EXTENSIONS: ExtensionReference[]
+
+  APP_PROTOCOL: string
+
+  PROTOCOL_HANDLERS: {
+    SPOTIFY_AUTH: string
+  }
+
+  SPOTIFY_AUTHORISE_URL: string
+  SPOTIFY_SCOPES: string[]
+  SPOTIFY_REDIRECT_URL: string
+
+  BRIDGE_EXPOSE: {
+    ELECTRON: string
+    API: string
+    ENV: string
+    CONSTANTS: string
+  }
 }
