@@ -1,5 +1,5 @@
 // Load .env file, should be called first
-import 'dotenv/config'
+//import 'dotenv/config'
 
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
