@@ -10,7 +10,7 @@ import * as constants from '../shared/constants'
 import * as ipcHandlers from './ipc/handlers'
 import * as protocolHandlers from './protocol/handlers'
 import { nameof } from '../shared/helpers'
-import { ElectronUserAPI, Env } from '../shared/types'
+import { ElectronUserAPI } from '../shared/types'
 import * as path from 'node:path'
 
 function createWindow(): void {
