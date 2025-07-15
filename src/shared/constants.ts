@@ -14,7 +14,9 @@ const PROTOCOL_HANDLERS = {
   SPOTIFY_AUTH: 'spotify-auth'
 }
 
-const SPOTIFY_AUTHORISE_URL = 'https://accounts.spotify.com/authorize'
+const SPOTIFY_BASE_URL = 'https://accounts.spotify.com'
+const SPOTIFY_AUTHORISE_URL = `${SPOTIFY_BASE_URL}/authorize`
+const SPOTIFY_TOKEN_URL = `${SPOTIFY_BASE_URL}/api/token`
 const SPOTIFY_SCOPES = [
   'user-read-private',
   'user-read-email',
@@ -26,6 +28,7 @@ const SPOTIFY_SCOPES = [
 ]
 const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
 const SPOTIFY_RESPONSE_TYPE = 'code'
+const SPOTIFY_GRANT_TYPE = 'authorization_code'
 
 const BRIDGE_EXPOSE = {
   ELECTRON: 'electron',
@@ -46,10 +49,13 @@ const constants: Constants = {
 
   PROTOCOL_HANDLERS,
 
+  SPOTIFY_BASE_URL,
   SPOTIFY_AUTHORISE_URL,
+  SPOTIFY_TOKEN_URL,
   SPOTIFY_SCOPES,
   SPOTIFY_REDIRECT_URL,
   SPOTIFY_RESPONSE_TYPE,
+  SPOTIFY_GRANT_TYPE,
 
   BRIDGE_EXPOSE
 }

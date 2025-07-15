@@ -102,10 +102,13 @@ export interface Constants {
     SPOTIFY_AUTH: string
   }
 
+  SPOTIFY_BASE_URL: string
   SPOTIFY_AUTHORISE_URL: string
+  SPOTIFY_TOKEN_URL: string
   SPOTIFY_SCOPES: string[]
   SPOTIFY_REDIRECT_URL: string
   SPOTIFY_RESPONSE_TYPE: string
+  SPOTIFY_GRANT_TYPE: string
 
   BRIDGE_EXPOSE: {
     ELECTRON: string
