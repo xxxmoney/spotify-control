@@ -25,7 +25,7 @@ const SPOTIFY_SCOPES = [
   'streaming'
 ]
 const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
-const SPOTIFY_RESPONSE_TYPE = 'token'
+const SPOTIFY_RESPONSE_TYPE = 'code'
 
 const BRIDGE_EXPOSE = {
   ELECTRON: 'electron',

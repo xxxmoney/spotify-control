@@ -1,9 +1,9 @@
 export function handleSpotifyAuthCallback(params: { [p: string]: string }): void {
-  const token = params['access_token']
+  const code = params['code']
 
-  if (token) {
-    console.log('Token captured in main process:', token)
+  if (code) {
+    console.log('Code captured in main process:', code)
 
-    // TODO: send token to renderer process or store it as needed
+    // TODO: send code to renderer process or store it as needed
   }
 }

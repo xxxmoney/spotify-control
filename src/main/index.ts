@@ -121,6 +121,8 @@ app.on('second-instance', (_, commandLine) => {
   const url = commandLine.pop()?.slice(0, -1)
 
   if (url) {
+    console.log('Protocol sent to url:', url)
+
     // The url constructor can parse custom protocols
     const parsedUrl = new URL(url)
 
