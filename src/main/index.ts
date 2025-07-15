@@ -129,9 +129,8 @@ app.on('second-instance', (_, commandLine) => {
     // Get the "callback-name" from the hostname part of the url
     const callbackName = parsedUrl.hostname
 
-    // Get the parameters from the hash (the part after '#')
-    const hash = parsedUrl.hash.substring(1) // Remove the leading '#'
-    const params = new URLSearchParams(hash)
+    // Get the parameters
+    const params = parsedUrl.searchParams
     const paramsObject = Object.fromEntries(params.entries())
 
     console.log('Callback Name:', callbackName)
