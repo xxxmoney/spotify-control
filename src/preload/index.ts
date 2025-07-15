@@ -7,9 +7,13 @@ import constants from '../shared/constants'
 // Custom APIs for renderer
 const api: ElectronUserAPI = {
   ping: (): Promise<string> => ipcRenderer.invoke(nameof<ElectronUserAPI>('ping')),
+
   getDevices: (): Promise<Device[]> => ipcRenderer.invoke(nameof<ElectronUserAPI>('getDevices')),
   getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex)
+    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex),
+
+  openUrl: (url: string): Promise<void> =>
+    ipcRenderer.invoke(nameof<ElectronUserAPI>('openUrl'), url)
 }
 const env: Env = {
   spotifyClientId: process.env.SPOTIFY_CLIENT_ID as string

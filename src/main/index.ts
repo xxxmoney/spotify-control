@@ -33,8 +33,9 @@ function createWindow(): void {
     mainWindow.show()
   })
 
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
+  mainWindow.webContents.setWindowOpenHandler(() => {
+    // Do nothing
+
     return { action: 'deny' }
   })
 
@@ -83,6 +84,7 @@ app.whenReady().then(async () => {
   ipcMain.handle(nameof<ElectronUserAPI>('ping'), ipcHandlers.ping)
   ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), ipcHandlers.getDevices)
   ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), ipcHandlers.getDeviceState)
+  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), ipcHandlers.openUrl)
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

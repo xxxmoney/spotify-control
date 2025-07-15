@@ -3,8 +3,11 @@ import { ExtensionReference } from 'electron-devtools-installer'
 
 export interface ElectronUserAPI {
   ping: () => Promise<string>
+
   getDevices: () => Promise<Device[]>
   getDeviceState: (deviceIndex: number) => Promise<DeviceState>
+
+  openUrl: (url: string) => Promise<void>
 }
 
 export interface Device {
