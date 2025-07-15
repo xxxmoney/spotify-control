@@ -33,3 +33,11 @@ export function cloneDeep<T>(obj: T): T | null {
 
   return _.cloneDeep(obj)
 }
+
+export function toSnakeCase<T>(value: T): Record<string, any> {
+  if (!value) {
+    return {}
+  }
+
+  return _.mapKeys(value, (__, key) => _.snakeCase(key))
+}
