@@ -1,7 +1,7 @@
 // Load .env file, should be called first
 import 'dotenv/config'
 
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
@@ -81,10 +81,12 @@ app.whenReady().then(async () => {
   ])
 
   // Ipc handlers
-  ipcMain.handle(nameof<ElectronUserAPI>('ping'), ipcHandlers.ping)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), ipcHandlers.getDevices)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), ipcHandlers.getDeviceState)
-  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), ipcHandlers.openUrl)
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), () => ipcHandlers.ping)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), () => ipcHandlers.getDevices)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), (_, deviceIndex: number) =>
+    ipcHandlers.getDeviceState(deviceIndex)
+  )
+  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => ipcHandlers.openUrl(url))
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
