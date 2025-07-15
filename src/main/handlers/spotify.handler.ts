@@ -8,6 +8,8 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
 
     const token = await fetchToken(code)
     console.log('Spotify token:', token)
+
+    // TODO: somehow throw the token back to the renderer (or store it in main?)
   }
 }
 
