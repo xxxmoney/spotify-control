@@ -7,8 +7,10 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
 import constants from '../shared/constants'
-import * as ipcHandlers from './ipc/handlers'
-import * as protocolHandlers from './protocol/handlers'
+import * as deviceHandler from './handlers/device.handler'
+import * as spotifyHandler from './handlers/spotify.handler'
+import * as testHandler from './handlers/test.handler'
+import * as urlHandler from './handlers/url.handler'
 import { nameof } from '../shared/helpers'
 import { ElectronUserAPI } from '../shared/types'
 import * as path from 'node:path'
@@ -81,12 +83,12 @@ app.whenReady().then(async () => {
   ])
 
   // Ipc handlers
-  ipcMain.handle(nameof<ElectronUserAPI>('ping'), () => ipcHandlers.ping)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), () => ipcHandlers.getDevices)
+  ipcMain.handle(nameof<ElectronUserAPI>('ping'), () => testHandler.ping)
+  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), () => deviceHandler.getDevices)
   ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), (_, deviceIndex: number) =>
-    ipcHandlers.getDeviceState(deviceIndex)
+    deviceHandler.getDeviceState(deviceIndex)
   )
-  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => ipcHandlers.openUrl(url))
+  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => urlHandler.openUrl(url))
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -139,7 +141,7 @@ app.on('second-instance', (_, commandLine) => {
     // Handle specific callbacks
     switch (callbackName) {
       case constants.PROTOCOL_HANDLERS.SPOTIFY_AUTH:
-        protocolHandlers.handleSpotifyAuthCallback(paramsObject)
+        spotifyHandler.handleSpotifyAuthCallback(paramsObject)
         break
       default:
         console.warn(`No handler for callback: '${callbackName}'`)
