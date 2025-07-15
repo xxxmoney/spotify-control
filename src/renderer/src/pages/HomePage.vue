@@ -28,7 +28,7 @@ onMounted(async () => {
     <div class="title">Spotify Control</div>
 
     <template v-if="!isAuthorised">
-      <p>Please authorise in Spotify to continue</p>
+      <p class="center">Please authorise in Spotify to continue</p>
     </template>
     <template v-else>
       <button class="action" @click="goToDevices">Show devices</button>
