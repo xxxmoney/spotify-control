@@ -81,6 +81,7 @@ export interface SpotifyAuthParams {
   clientId: string
   redirectUri: string
   scope: string
+  responseType: string
 }
 
 export interface Env {
@@ -104,6 +105,7 @@ export interface Constants {
   SPOTIFY_AUTHORISE_URL: string
   SPOTIFY_SCOPES: string[]
   SPOTIFY_REDIRECT_URL: string
+  SPOTIFY_RESPONSE_TYPE: string
 
   BRIDGE_EXPOSE: {
     ELECTRON: string
