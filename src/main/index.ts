@@ -90,7 +90,9 @@ app.whenReady().then(async () => {
   )
   ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => urlHandler.openUrl(url))
   ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyCodeValid'), () => spotifyHandler.isCodeValid())
-  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyTokenValid'), () => spotifyHandler.isCodeValid())
+  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyTokenValid'), () =>
+    spotifyHandler.isTokenValid()
+  )
   ipcMain.handle(nameof<ElectronUserAPI>('reacquireSpotifyToken'), () =>
     spotifyHandler.reacquireToken()
   )
