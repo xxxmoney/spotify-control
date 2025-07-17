@@ -4,10 +4,13 @@ import { SpotifyTokenResponse } from '../../shared/types'
 import { DateTime } from 'luxon'
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
+  console.log('Handling Spotify auth callback')
+
   const code = params['code']
 
   if (code) {
     memoryStore.set(constants.SPOTIFY_CODE_KEY, code)
+    console.log('Spotify code received')
 
     await acquireToken(code)
   }
