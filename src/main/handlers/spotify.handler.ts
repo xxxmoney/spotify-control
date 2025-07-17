@@ -8,6 +8,7 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
   if (code) {
     memoryStore.set(Constants.SPOTIFY_CODE_KEY, code)
 
+    // TODO: figure out token refresh logic
     const token = await fetchToken(code)
     memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, token)
 
