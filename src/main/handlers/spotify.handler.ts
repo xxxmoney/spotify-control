@@ -24,6 +24,8 @@ async function fetchToken(code: string): Promise<string> {
     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
   ).toString('base64')
 
+  console.log('Authorization Base64:', authorizationBase64)
+
   const response = await fetch(constants.SPOTIFY_TOKEN_URL, {
     method: 'POST',
     headers: {
@@ -34,10 +36,12 @@ async function fetchToken(code: string): Promise<string> {
   })
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch token: ${response.statusText}`)
+    const responseText = await response.text()
+    throw new Error(
+      `Failed to fetch token: ${response.status} ${response.statusText} ${responseText}`
+    )
   }
 
   const data = await response.json()
-
   return data['access_token']
 }
