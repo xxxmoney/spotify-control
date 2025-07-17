@@ -6,7 +6,7 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
   const code = params['code']
 
   if (code) {
-    memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, code)
+    memoryStore.set(Constants.SPOTIFY_CODE_KEY, code)
 
     const token = await fetchToken(code)
     memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, token)
