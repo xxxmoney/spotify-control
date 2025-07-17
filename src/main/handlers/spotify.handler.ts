@@ -52,7 +52,7 @@ async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
   ).toString('base64')
 
-  console.log('Fetching Spotify token with...')
+  console.log('Fetching Spotify token...')
 
   const response = await fetch(constants.SPOTIFY_TOKEN_URL, {
     method: 'POST',
