@@ -130,10 +130,10 @@ app.on('second-instance', (_, commandLine) => {
   const url = commandLine.pop()?.slice(0, -1)
 
   if (url) {
-    console.log('Protocol sent to url:', url)
-
     // The url constructor can parse custom protocols
     const parsedUrl = new URL(url)
+
+    console.log('Protocol sent to url:', parsedUrl.hostname)
 
     // Get the "callback-name" from the hostname part of the url
     const callbackName = parsedUrl.hostname
@@ -143,7 +143,6 @@ app.on('second-instance', (_, commandLine) => {
     const paramsObject = Object.fromEntries(params.entries())
 
     console.log('Callback Name:', callbackName)
-    console.log('Parsed params:', paramsObject)
 
     // Handle specific callbacks
     switch (callbackName) {
