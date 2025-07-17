@@ -1,12 +1,17 @@
+import * as memoryStore from '../helpers/memoryStore'
 import constants from '../../shared/constants'
+import Constants from '../../shared/constants'
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
   const code = params['code']
 
   if (code) {
-    const token = await fetchToken(code)
+    memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, code)
 
-    // TODO: somehow throw the token back to the renderer (or store it in main?)
+    const token = await fetchToken(code)
+    memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, token)
+
+    // TODO: somehow make renderer aware that app is authed
   }
 }
 

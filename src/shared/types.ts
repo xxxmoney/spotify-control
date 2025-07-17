@@ -109,6 +109,8 @@ export interface Constants {
   SPOTIFY_REDIRECT_URL: string
   SPOTIFY_RESPONSE_TYPE: string
   SPOTIFY_GRANT_TYPE: string
+  SPOTIFY_TOKEN_KEY: string
+  SPOTIFY_CODE_KEY: string
 
   BRIDGE_EXPOSE: {
     ELECTRON: string
