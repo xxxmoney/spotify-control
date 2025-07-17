@@ -1,6 +1,7 @@
 import * as memoryStore from '../helpers/memoryStore'
 import constants from '../../shared/constants'
 import Constants from '../../shared/constants'
+import { SpotifyTokenResponse } from '../../shared/types'
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
   const code = params['code']
@@ -9,14 +10,14 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
     memoryStore.set(Constants.SPOTIFY_CODE_KEY, code)
 
     // TODO: figure out token refresh logic
-    const token = await fetchToken(code)
-    memoryStore.set(Constants.SPOTIFY_TOKEN_KEY, token)
+    const response = await fetchToken(code)
+    memoryStore.set(Constants.SPOTIFY_TOKEN_RESPONSE_KEY, response)
 
     // TODO: somehow make renderer aware that app is authed
   }
 }
 
-async function fetchToken(code: string): Promise<string> {
+async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
   const body = new URLSearchParams({
     grant_type: constants.SPOTIFY_GRANT_TYPE,
     code: code,
@@ -48,5 +49,8 @@ async function fetchToken(code: string): Promise<string> {
   console.log('Spotify token fetched successfully')
 
   const data = await response.json()
-  return data['access_token']
+  return {
+    accessToken: data['access_token'],
+    expiresIn: data['expires_in']
+  }
 }

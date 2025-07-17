@@ -84,6 +84,11 @@ export interface SpotifyAuthParams {
   responseType: string
 }
 
+export interface SpotifyTokenResponse {
+  accessToken: string
+  expiresIn: number
+}
+
 export interface Env {
   spotifyClientId: string
 }
@@ -109,7 +114,7 @@ export interface Constants {
   SPOTIFY_REDIRECT_URL: string
   SPOTIFY_RESPONSE_TYPE: string
   SPOTIFY_GRANT_TYPE: string
-  SPOTIFY_TOKEN_KEY: string
+  SPOTIFY_TOKEN_RESPONSE_KEY: string
   SPOTIFY_CODE_KEY: string
 
   BRIDGE_EXPOSE: {

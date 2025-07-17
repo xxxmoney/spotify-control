@@ -29,7 +29,7 @@ const SPOTIFY_SCOPES = [
 const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
 const SPOTIFY_RESPONSE_TYPE = 'code'
 const SPOTIFY_GRANT_TYPE = 'client_credentials' // https://stackoverflow.com/questions/69506995/spotify-api-authorization-code-flow-failing-error-invalid-grant-error-d
-const SPOTIFY_TOKEN_KEY = 'spotify_token'
+const SPOTIFY_TOKEN_RESPONSE_KEY = 'spotify_token_response'
 const SPOTIFY_CODE_KEY = 'code_token'
 
 const BRIDGE_EXPOSE = {
@@ -58,7 +58,7 @@ const constants: Constants = {
   SPOTIFY_REDIRECT_URL,
   SPOTIFY_RESPONSE_TYPE,
   SPOTIFY_GRANT_TYPE,
-  SPOTIFY_TOKEN_KEY,
+  SPOTIFY_TOKEN_RESPONSE_KEY,
   SPOTIFY_CODE_KEY,
 
   BRIDGE_EXPOSE
