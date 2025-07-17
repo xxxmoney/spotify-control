@@ -31,7 +31,7 @@ const SPOTIFY_RESPONSE_TYPE = 'code'
 const SPOTIFY_GRANT_TYPE = 'client_credentials' // https://stackoverflow.com/questions/69506995/spotify-api-authorization-code-flow-failing-error-invalid-grant-error-d
 const SPOTIFY_TOKEN_RESPONSE_KEY = 'spotify_token_response'
 const SPOTIFY_CODE_KEY = 'code_token'
-const SPOTIFY_TOKEN_CHECK_INTERVAL = 1000
+const SPOTIFY_TOKEN_CHECK_INTERVAL = 2000
 
 const BRIDGE_EXPOSE = {
   ELECTRON: 'electron',
