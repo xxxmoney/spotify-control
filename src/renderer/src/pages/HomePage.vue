@@ -18,7 +18,7 @@ onMounted(async () => {
   if (!isAuthorised.value) {
     await spotifyStore.authorise()
 
-    // TODO: wait somehow for callback with authentication - have to somehow get it from main
+    spotifyStore.startTokenCheckInterval()
   }
 })
 </script>

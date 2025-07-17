@@ -89,9 +89,11 @@ app.whenReady().then(async () => {
     deviceHandler.getDeviceState(deviceIndex)
   )
   ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => urlHandler.openUrl(url))
-  ipcMain.handle(nameof<ElectronUserAPI>('isCodeValid'), () => spotifyHandler.isCodeValid())
-  ipcMain.handle(nameof<ElectronUserAPI>('isTokenValid'), () => spotifyHandler.isTokenValid())
-  ipcMain.handle(nameof<ElectronUserAPI>('reacquireToken'), () => spotifyHandler.reacquireToken())
+  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyCodeValid'), () => spotifyHandler.isCodeValid())
+  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyTokenValid'), () => spotifyHandler.isCodeValid())
+  ipcMain.handle(nameof<ElectronUserAPI>('reacquireSpotifyToken'), () =>
+    spotifyHandler.reacquireToken()
+  )
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

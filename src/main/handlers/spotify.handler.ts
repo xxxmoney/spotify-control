@@ -9,11 +9,7 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
   if (code) {
     memoryStore.set(constants.SPOTIFY_CODE_KEY, code)
 
-    // TODO: figure out token refresh logic
     await acquireToken(code)
-
-    // TODO: somehow make renderer aware that app is authed
-    // - rendered will probably poll for info via ipc api
   }
 }
 

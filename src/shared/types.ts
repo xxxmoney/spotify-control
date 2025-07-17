@@ -10,9 +10,9 @@ export interface ElectronUserAPI {
 
   openUrl: (url: string) => Promise<void>
 
-  isCodeValid: () => Promise<boolean>
-  isTokenValid: () => Promise<boolean>
-  reacquireToken: () => Promise<void>
+  isSpotifyCodeValid: () => Promise<boolean>
+  isSpotifyTokenValid: () => Promise<boolean>
+  reacquireSpotifyToken: () => Promise<void>
 }
 
 export interface Device {
@@ -121,6 +121,7 @@ export interface Constants {
   SPOTIFY_GRANT_TYPE: string
   SPOTIFY_TOKEN_RESPONSE_KEY: string
   SPOTIFY_CODE_KEY: string
+  SPOTIFY_TOKEN_CHECK_INTERVAL: number
 
   BRIDGE_EXPOSE: {
     ELECTRON: string
