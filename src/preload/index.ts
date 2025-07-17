@@ -13,7 +13,11 @@ const api: ElectronUserAPI = {
     ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex),
 
   openUrl: (url: string): Promise<void> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('openUrl'), url)
+    ipcRenderer.invoke(nameof<ElectronUserAPI>('openUrl'), url),
+
+  isCodeValid: (): Promise<boolean> => ipcRenderer.invoke(nameof<ElectronUserAPI>('isCodeValid')),
+  isTokenValid: (): Promise<boolean> => ipcRenderer.invoke(nameof<ElectronUserAPI>('isTokenValid')),
+  reacquireToken: (): Promise<void> => ipcRenderer.invoke(nameof<ElectronUserAPI>('reacquireToken'))
 }
 const env: Env = {
   spotifyClientId: process.env.SPOTIFY_CLIENT_ID as string

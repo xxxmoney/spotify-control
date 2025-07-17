@@ -1,5 +1,6 @@
 import { AxisActionTypeEnum, ButtonActionTypeEnum } from '@/renderer/src/enums/device.enums'
 import { ExtensionReference } from 'electron-devtools-installer'
+import { DateTime } from 'luxon'
 
 export interface ElectronUserAPI {
   ping: () => Promise<string>
@@ -8,6 +9,10 @@ export interface ElectronUserAPI {
   getDeviceState: (deviceIndex: number) => Promise<DeviceState>
 
   openUrl: (url: string) => Promise<void>
+
+  isCodeValid: () => Promise<boolean>
+  isTokenValid: () => Promise<boolean>
+  reacquireToken: () => Promise<void>
 }
 
 export interface Device {
@@ -86,7 +91,7 @@ export interface SpotifyAuthParams {
 
 export interface SpotifyTokenResponse {
   accessToken: string
-  expiresIn: number
+  expiresAt: DateTime
 }
 
 export interface Env {

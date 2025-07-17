@@ -1,20 +1,48 @@
 import * as memoryStore from '../helpers/memoryStore'
 import constants from '../../shared/constants'
-import Constants from '../../shared/constants'
 import { SpotifyTokenResponse } from '../../shared/types'
+import { DateTime } from 'luxon'
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
   const code = params['code']
 
   if (code) {
-    memoryStore.set(Constants.SPOTIFY_CODE_KEY, code)
+    memoryStore.set(constants.SPOTIFY_CODE_KEY, code)
 
     // TODO: figure out token refresh logic
-    const response = await fetchToken(code)
-    memoryStore.set(Constants.SPOTIFY_TOKEN_RESPONSE_KEY, response)
+    await acquireToken(code)
 
     // TODO: somehow make renderer aware that app is authed
+    // - rendered will probably poll for info via ipc api
   }
+}
+
+export function isCodeValid(): boolean {
+  const code = memoryStore.get<string>(constants.SPOTIFY_CODE_KEY)
+  return !!code
+}
+
+export function isTokenValid(): boolean {
+  const tokenResponse = memoryStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY)
+
+  return tokenResponse ? DateTime.now() < tokenResponse.expiresAt : false
+}
+
+export async function reacquireToken(): Promise<void> {
+  const code = memoryStore.get<string>(constants.SPOTIFY_CODE_KEY)
+
+  if (!code) {
+    throw new Error('No valid Spotify code found in memory store')
+  }
+
+  console.log('Reacquiring Spotify token...')
+  await acquireToken(code)
+}
+
+async function acquireToken(code: string): Promise<void> {
+  const tokenResponse = await fetchToken(code)
+  memoryStore.set(constants.SPOTIFY_TOKEN_RESPONSE_KEY, tokenResponse)
+  console.log('Spotify token stored successfully')
 }
 
 async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
@@ -51,6 +79,6 @@ async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
   const data = await response.json()
   return {
     accessToken: data['access_token'],
-    expiresIn: data['expires_in']
+    expiresAt: DateTime.now().plus({ seconds: data['expires_in'] as number })
   }
 }
