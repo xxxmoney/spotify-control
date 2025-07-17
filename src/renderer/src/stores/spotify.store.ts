@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import * as webApi from '@renderer/api/spotify.api'
+import * as spotifyApi from '@renderer/api/spotify.api'
 //import SpotifyWebApi from 'spotify-web-api-js'
 import { useEnv } from '@renderer/composables/env.comp'
 import { useConstants } from '@renderer/composables/constants.comp'
@@ -18,18 +18,18 @@ export const useSpotifyStore = defineStore('spotify', () => {
     tokenCheckInterval.value = setInterval(async () => {
       if (isAuthorised.value) {
         // When authorised, reacquire token if no longer valid
-        if (!(await webApi.isTokenValid())) {
-          await webApi.reacquireToken()
+        if (!(await spotifyApi.isTokenValid())) {
+          await spotifyApi.reacquireToken()
         }
       } else {
         // When not authorised, check if the token is valid to set authorised
-        isAuthorised.value = await webApi.isTokenValid()
+        isAuthorised.value = await spotifyApi.isTokenValid()
       }
     }, constants.SPOTIFY_TOKEN_CHECK_INTERVAL)
   }
 
   async function authorise(): Promise<void> {
-    await webApi.authorise({
+    await spotifyApi.authorise({
       clientId: env.spotifyClientId,
       redirectUri: constants.SPOTIFY_REDIRECT_URL,
       scope: constants.SPOTIFY_SCOPES.join(' '),
