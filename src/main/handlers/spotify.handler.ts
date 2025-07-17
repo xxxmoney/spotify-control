@@ -4,10 +4,7 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
   const code = params['code']
 
   if (code) {
-    console.log('Spotify auth code:', code)
-
     const token = await fetchToken(code)
-    console.log('Spotify token:', token)
 
     // TODO: somehow throw the token back to the renderer (or store it in main?)
   }
@@ -24,7 +21,7 @@ async function fetchToken(code: string): Promise<string> {
     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
   ).toString('base64')
 
-  console.log('Authorization Base64:', authorizationBase64)
+  console.log('Fetching Spotify token with...')
 
   const response = await fetch(constants.SPOTIFY_TOKEN_URL, {
     method: 'POST',
@@ -41,6 +38,8 @@ async function fetchToken(code: string): Promise<string> {
       `Failed to fetch token: ${response.status} ${response.statusText} ${responseText}`
     )
   }
+
+  console.log('Spotify token fetched successfully')
 
   const data = await response.json()
   return data['access_token']
