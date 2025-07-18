@@ -10,7 +10,7 @@ export function register(): void {
       nameof<ElectronUserAPI>('device'),
       nameof<ElectronUserAPI_Device>('getDevices')
     ),
-    () => getDevices
+    () => getDevices()
   )
   ipcMain.handle(
     prefixHandlerName(
