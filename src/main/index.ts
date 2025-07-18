@@ -7,11 +7,12 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
 import icon from '../../resources/icon.png?asset'
 import constants from '../shared/constants'
+import * as path from 'node:path'
 import * as deviceHandler from './handlers/device.handler'
 import * as spotifyHandler from './handlers/spotify.handler'
 import * as testHandler from './handlers/test.handler'
 import * as urlHandler from './handlers/url.handler'
-import * as path from 'node:path'
+import * as spotifyApiHandler from './handlers/spotifyApi.handler'
 
 function createWindow(): void {
   // Create the browser window.
@@ -85,6 +86,7 @@ app.whenReady().then(async () => {
   deviceHandler.register()
   urlHandler.register()
   spotifyHandler.register()
+  spotifyApiHandler.register()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

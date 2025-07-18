@@ -10,6 +10,8 @@ export interface ElectronUserAPI {
   url: ElectronUserAPI_Url
 
   spotify: ElectronUserAPI_Spotify
+
+  spotifyApi: ElectronUserAPI_SpotifyApi
 }
 export interface ElectronUserAPI_Test {
   ping: () => Promise<string>
@@ -26,6 +28,9 @@ export interface ElectronUserAPI_Spotify {
   isCodeValid: () => Promise<boolean>
   isTokenValid: () => Promise<boolean>
   reacquireToken: () => Promise<void>
+}
+export interface ElectronUserAPI_SpotifyApi {
+  setVolume: (percent: number) => Promise<void>
 }
 
 export interface Device {

@@ -7,6 +7,7 @@ import {
   ElectronUserAPI,
   ElectronUserAPI_Device,
   ElectronUserAPI_Spotify,
+  ElectronUserAPI_SpotifyApi,
   ElectronUserAPI_Test,
   ElectronUserAPI_Url,
   Env
@@ -77,6 +78,17 @@ const api: ElectronUserAPI = {
           nameof<ElectronUserAPI>('spotify'),
           nameof<ElectronUserAPI_Spotify>('authorise')
         )
+      )
+  },
+
+  spotifyApi: {
+    setVolume: (percent: number): Promise<void> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('spotifyApi'),
+          nameof<ElectronUserAPI_SpotifyApi>('setVolume')
+        ),
+        percent
       )
   }
 }

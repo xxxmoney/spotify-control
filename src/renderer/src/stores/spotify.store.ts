@@ -1,12 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import * as spotifyApi from '@renderer/api/spotify.api'
-//import SpotifyWebApi from 'spotify-web-api-js'
 import { useConstants } from '@renderer/composables/constants.comp'
 
 export const useSpotifyStore = defineStore('spotify', () => {
-  // TODO: move to main
-  //const controlApi = new SpotifyWebApi()
   const constants = useConstants()
 
   const tokenCheckInterval = ref<NodeJS.Timeout | null>(null)
