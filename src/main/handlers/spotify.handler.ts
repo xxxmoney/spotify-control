@@ -79,8 +79,12 @@ export function isCodeValid(): boolean {
   return !!code
 }
 
+export function getStoredToken(): SpotifyTokenResponse | null {
+  return memoryStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY) ?? null
+}
+
 export function isTokenValid(): boolean {
-  const tokenResponse = memoryStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY)
+  const tokenResponse = getStoredToken()
 
   return tokenResponse ? DateTime.now() < tokenResponse.expiresAt : false
 }

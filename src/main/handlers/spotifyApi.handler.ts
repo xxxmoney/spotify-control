@@ -2,6 +2,7 @@ import SpotifyWebApi from 'spotify-web-api-js'
 import { ipcMain } from 'electron'
 import { nameof, prefixHandlerName } from '../../shared/helpers'
 import { ElectronUserAPI, ElectronUserAPI_SpotifyApi } from '../../shared/types'
+import * as spotifyHandler from './spotify.handler'
 
 const controlApi = new SpotifyWebApi()
 
@@ -16,5 +17,17 @@ export function register(): void {
 }
 
 export async function setVolume(percent: number): Promise<void> {
+  initialize()
+
   await controlApi.setVolume(percent)
+}
+
+function initialize(): void {
+  const token = spotifyHandler.getStoredToken()
+
+  if (!token) {
+    throw new Error('Spotify token is not set')
+  }
+
+  controlApi.setAccessToken(token.accessToken)
 }
