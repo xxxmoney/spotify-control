@@ -1,33 +1,64 @@
 import * as memoryStore from '../helpers/memory.store'
+import * as urlHandler from './url.handler'
 import constants from '../../shared/constants'
-import { ElectronUserAPI, ElectronUserAPI_Spotify, SpotifyTokenResponse } from '../../shared/types'
+import {
+  ElectronUserAPI,
+  ElectronUserAPI_Spotify,
+  SpotifyAuthParams,
+  SpotifyTokenResponse
+} from '../../shared/types'
 import { DateTime } from 'luxon'
 import { ipcMain } from 'electron'
-import { nameof } from '../../shared/helpers'
+import { nameof, toSnakeCase } from '../../shared/helpers'
 import { prefixHandlerName } from '../../shared/helpers'
 
 export function register(): void {
   ipcMain.handle(
     prefixHandlerName(
-      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI>('spotify'),
       nameof<ElectronUserAPI_Spotify>('isCodeValid')
     ),
     () => isCodeValid()
   )
   ipcMain.handle(
     prefixHandlerName(
-      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI>('spotify'),
       nameof<ElectronUserAPI_Spotify>('isTokenValid')
     ),
     () => isTokenValid()
   )
   ipcMain.handle(
     prefixHandlerName(
-      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI>('spotify'),
       nameof<ElectronUserAPI_Spotify>('reacquireToken')
     ),
     () => reacquireToken()
   )
+  ipcMain.handle(
+    prefixHandlerName(
+      nameof<ElectronUserAPI>('spotify'),
+      nameof<ElectronUserAPI_Spotify>('authorise')
+    ),
+    () => authorise()
+  )
+}
+
+export async function authorise(): Promise<void> {
+  console.log('Starting Spotify authorisation process...')
+
+  const params: SpotifyAuthParams = {
+    clientId: process.env.SPOTIFY_CLIENT_ID || '',
+    redirectUri: constants.SPOTIFY_REDIRECT_URL,
+    scope: constants.SPOTIFY_SCOPES.join(' '),
+    responseType: constants.SPOTIFY_RESPONSE_TYPE
+  }
+
+  const queryString = new URLSearchParams(toSnakeCase(params)).toString()
+  const url = `${constants.SPOTIFY_AUTHORISE_URL}?${queryString}`
+
+  await urlHandler.openUrl(url)
+
+  console.log('Spotify authorisation url opened')
 }
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
@@ -72,11 +103,12 @@ async function acquireToken(code: string): Promise<void> {
 }
 
 async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
-  const body = new URLSearchParams({
-    grant_type: constants.SPOTIFY_GRANT_TYPE,
+  const params = {
+    grantType: constants.SPOTIFY_GRANT_TYPE,
     code: code,
-    redirect_uri: constants.SPOTIFY_REDIRECT_URL
-  })
+    redirectUri: constants.SPOTIFY_REDIRECT_URL
+  }
+  const body = new URLSearchParams(toSnakeCase(params))
 
   const authorizationBase64 = Buffer.from(
     process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
