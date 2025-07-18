@@ -22,9 +22,9 @@ export interface ElectronUserAPI_Url {
   openUrl: (url: string) => Promise<void>
 }
 export interface ElectronUserAPI_Spotify {
-  isSpotifyCodeValid: () => Promise<boolean>
-  isSpotifyTokenValid: () => Promise<boolean>
-  reacquireSpotifyToken: () => Promise<void>
+  isCodeValid: () => Promise<boolean>
+  isTokenValid: () => Promise<boolean>
+  reacquireToken: () => Promise<void>
 }
 
 export interface Device {

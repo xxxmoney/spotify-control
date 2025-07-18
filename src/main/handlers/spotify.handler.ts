@@ -10,21 +10,21 @@ export function register(): void {
   ipcMain.handle(
     prefixHandlerName(
       nameof<ElectronUserAPI>('device'),
-      nameof<ElectronUserAPI_Spotify>('isSpotifyCodeValid')
+      nameof<ElectronUserAPI_Spotify>('isCodeValid')
     ),
     () => isCodeValid()
   )
   ipcMain.handle(
     prefixHandlerName(
       nameof<ElectronUserAPI>('device'),
-      nameof<ElectronUserAPI_Spotify>('isSpotifyTokenValid')
+      nameof<ElectronUserAPI_Spotify>('isTokenValid')
     ),
     () => isTokenValid()
   )
   ipcMain.handle(
     prefixHandlerName(
       nameof<ElectronUserAPI>('device'),
-      nameof<ElectronUserAPI_Spotify>('reacquireSpotifyToken')
+      nameof<ElectronUserAPI_Spotify>('reacquireToken')
     ),
     () => reacquireToken()
   )

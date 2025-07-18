@@ -50,25 +50,25 @@ const api: ElectronUserAPI = {
   },
 
   spotify: {
-    isSpotifyCodeValid: (): Promise<boolean> =>
+    isCodeValid: (): Promise<boolean> =>
       ipcRenderer.invoke(
         prefixHandlerName(
           nameof<ElectronUserAPI>('device'),
-          nameof<ElectronUserAPI_Spotify>('isSpotifyCodeValid')
+          nameof<ElectronUserAPI_Spotify>('isCodeValid')
         )
       ),
-    isSpotifyTokenValid: (): Promise<boolean> =>
+    isTokenValid: (): Promise<boolean> =>
       ipcRenderer.invoke(
         prefixHandlerName(
           nameof<ElectronUserAPI>('device'),
-          nameof<ElectronUserAPI_Spotify>('isSpotifyTokenValid')
+          nameof<ElectronUserAPI_Spotify>('isTokenValid')
         )
       ),
-    reacquireSpotifyToken: (): Promise<void> =>
+    reacquireToken: (): Promise<void> =>
       ipcRenderer.invoke(
         prefixHandlerName(
           nameof<ElectronUserAPI>('device'),
-          nameof<ElectronUserAPI_Spotify>('reacquireSpotifyToken')
+          nameof<ElectronUserAPI_Spotify>('reacquireToken')
         )
       )
   }

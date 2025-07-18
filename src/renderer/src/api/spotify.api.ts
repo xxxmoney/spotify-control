@@ -15,15 +15,15 @@ export async function authorise(params: SpotifyAuthParams): Promise<void> {
 
 export async function isCodeValid(): Promise<boolean> {
   const api = useElectronAPI()
-  return await api.spotify.isSpotifyCodeValid()
+  return await api.spotify.isCodeValid()
 }
 
 export async function isTokenValid(): Promise<boolean> {
   const api = useElectronAPI()
-  return await api.spotify.isSpotifyTokenValid()
+  return await api.spotify.isTokenValid()
 }
 
 export async function reacquireToken(): Promise<void> {
   const api = useElectronAPI()
-  await api.spotify.reacquireSpotifyToken()
+  await api.spotify.reacquireToken()
 }
