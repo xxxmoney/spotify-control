@@ -1,26 +1,77 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { nameof } from '../shared/helpers'
-import { Device, DeviceState, ElectronUserAPI, Env } from '../shared/types'
+import {
+  Device,
+  DeviceState,
+  ElectronUserAPI,
+  ElectronUserAPI_Device,
+  ElectronUserAPI_Spotify,
+  ElectronUserAPI_Test,
+  ElectronUserAPI_Url,
+  Env
+} from '../shared/types'
 import constants from '../shared/constants'
+import { prefixHandlerName } from '../shared/helpers'
 
 // Custom APIs for renderer
 const api: ElectronUserAPI = {
-  ping: (): Promise<string> => ipcRenderer.invoke(nameof<ElectronUserAPI>('ping')),
+  test: {
+    ping: (): Promise<string> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(nameof<ElectronUserAPI>('test'), nameof<ElectronUserAPI_Test>('ping'))
+      )
+  },
 
-  getDevices: (): Promise<Device[]> => ipcRenderer.invoke(nameof<ElectronUserAPI>('getDevices')),
-  getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('getDeviceState'), deviceIndex),
+  device: {
+    getDevices: (): Promise<Device[]> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('device'),
+          nameof<ElectronUserAPI_Device>('getDevices')
+        )
+      ),
+    getDeviceState: (deviceIndex: number): Promise<DeviceState> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('device'),
+          nameof<ElectronUserAPI_Device>('getDeviceState')
+        ),
+        deviceIndex
+      )
+  },
 
-  openUrl: (url: string): Promise<void> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('openUrl'), url),
+  url: {
+    openUrl: (url: string): Promise<void> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(nameof<ElectronUserAPI>('url'), nameof<ElectronUserAPI_Url>('openUrl')),
+        url
+      )
+  },
 
-  isSpotifyCodeValid: (): Promise<boolean> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('isSpotifyCodeValid')),
-  isSpotifyTokenValid: (): Promise<boolean> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('isSpotifyTokenValid')),
-  reacquireSpotifyToken: (): Promise<void> =>
-    ipcRenderer.invoke(nameof<ElectronUserAPI>('reacquireSpotifyToken'))
+  spotify: {
+    isSpotifyCodeValid: (): Promise<boolean> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('device'),
+          nameof<ElectronUserAPI_Spotify>('isSpotifyCodeValid')
+        )
+      ),
+    isSpotifyTokenValid: (): Promise<boolean> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('device'),
+          nameof<ElectronUserAPI_Spotify>('isSpotifyTokenValid')
+        )
+      ),
+    reacquireSpotifyToken: (): Promise<void> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('device'),
+          nameof<ElectronUserAPI_Spotify>('reacquireSpotifyToken')
+        )
+      )
+  }
 }
 const env: Env = {
   spotifyClientId: process.env.SPOTIFY_CLIENT_ID as string

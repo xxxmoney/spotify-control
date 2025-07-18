@@ -3,13 +3,25 @@ import { ExtensionReference } from 'electron-devtools-installer'
 import { DateTime } from 'luxon'
 
 export interface ElectronUserAPI {
-  ping: () => Promise<string>
+  test: ElectronUserAPI_Test
 
+  device: ElectronUserAPI_Device
+
+  url: ElectronUserAPI_Url
+
+  spotify: ElectronUserAPI_Spotify
+}
+export interface ElectronUserAPI_Test {
+  ping: () => Promise<string>
+}
+export interface ElectronUserAPI_Device {
   getDevices: () => Promise<Device[]>
   getDeviceState: (deviceIndex: number) => Promise<DeviceState>
-
+}
+export interface ElectronUserAPI_Url {
   openUrl: (url: string) => Promise<void>
-
+}
+export interface ElectronUserAPI_Spotify {
   isSpotifyCodeValid: () => Promise<boolean>
   isSpotifyTokenValid: () => Promise<boolean>
   reacquireSpotifyToken: () => Promise<void>

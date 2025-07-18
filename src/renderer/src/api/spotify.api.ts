@@ -10,20 +10,20 @@ export async function authorise(params: SpotifyAuthParams): Promise<void> {
   const queryString = new URLSearchParams(toSnakeCase(params)).toString()
   const url = `${constants.SPOTIFY_AUTHORISE_URL}?${queryString}`
 
-  await api.openUrl(url)
+  await api.url.openUrl(url)
 }
 
 export async function isCodeValid(): Promise<boolean> {
   const api = useElectronAPI()
-  return await api.isSpotifyCodeValid()
+  return await api.spotify.isSpotifyCodeValid()
 }
 
 export async function isTokenValid(): Promise<boolean> {
   const api = useElectronAPI()
-  return await api.isSpotifyTokenValid()
+  return await api.spotify.isSpotifyTokenValid()
 }
 
 export async function reacquireToken(): Promise<void> {
   const api = useElectronAPI()
-  await api.reacquireSpotifyToken()
+  await api.spotify.reacquireSpotifyToken()
 }

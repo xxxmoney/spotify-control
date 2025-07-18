@@ -1,7 +1,34 @@
-import * as memoryStore from '../helpers/memoryStore'
+import * as memoryStore from '../helpers/memory.store'
 import constants from '../../shared/constants'
-import { SpotifyTokenResponse } from '../../shared/types'
+import { ElectronUserAPI, ElectronUserAPI_Spotify, SpotifyTokenResponse } from '../../shared/types'
 import { DateTime } from 'luxon'
+import { ipcMain } from 'electron'
+import { nameof } from '../../shared/helpers'
+import { prefixHandlerName } from '../../shared/helpers'
+
+export function register(): void {
+  ipcMain.handle(
+    prefixHandlerName(
+      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI_Spotify>('isSpotifyCodeValid')
+    ),
+    () => isCodeValid()
+  )
+  ipcMain.handle(
+    prefixHandlerName(
+      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI_Spotify>('isSpotifyTokenValid')
+    ),
+    () => isTokenValid()
+  )
+  ipcMain.handle(
+    prefixHandlerName(
+      nameof<ElectronUserAPI>('device'),
+      nameof<ElectronUserAPI_Spotify>('reacquireSpotifyToken')
+    ),
+    () => reacquireToken()
+  )
+}
 
 export async function handleSpotifyAuthCallback(params: { [p: string]: string }): Promise<void> {
   console.log('Received Spotify auth callback')

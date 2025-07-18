@@ -1,7 +1,7 @@
 // Load .env file, should be called first
 import 'dotenv/config'
 
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import { installExtension } from 'electron-devtools-installer'
@@ -11,8 +11,6 @@ import * as deviceHandler from './handlers/device.handler'
 import * as spotifyHandler from './handlers/spotify.handler'
 import * as testHandler from './handlers/test.handler'
 import * as urlHandler from './handlers/url.handler'
-import { nameof } from '../shared/helpers'
-import { ElectronUserAPI } from '../shared/types'
 import * as path from 'node:path'
 
 function createWindow(): void {
@@ -83,19 +81,10 @@ app.whenReady().then(async () => {
   ])
 
   // Ipc handlers
-  ipcMain.handle(nameof<ElectronUserAPI>('ping'), () => testHandler.ping)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDevices'), () => deviceHandler.getDevices)
-  ipcMain.handle(nameof<ElectronUserAPI>('getDeviceState'), (_, deviceIndex: number) =>
-    deviceHandler.getDeviceState(deviceIndex)
-  )
-  ipcMain.handle(nameof<ElectronUserAPI>('openUrl'), (_, url: string) => urlHandler.openUrl(url))
-  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyCodeValid'), () => spotifyHandler.isCodeValid())
-  ipcMain.handle(nameof<ElectronUserAPI>('isSpotifyTokenValid'), () =>
-    spotifyHandler.isTokenValid()
-  )
-  ipcMain.handle(nameof<ElectronUserAPI>('reacquireSpotifyToken'), () =>
-    spotifyHandler.reacquireToken()
-  )
+  testHandler.register()
+  deviceHandler.register()
+  urlHandler.register()
+  spotifyHandler.register()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

@@ -63,7 +63,7 @@ export const useCheckingStore = defineStore('checking', () => {
 
   async function refetchDeviceState(): Promise<void> {
     deviceStateLast.value = cloneDeep(deviceStateCurrent.value)
-    deviceStateCurrent.value = await api.getDeviceState(currentDeviceIndex.value)
+    deviceStateCurrent.value = await api.device.getDeviceState(currentDeviceIndex.value)
   }
 
   async function handleDeviceStateChange(): Promise<void> {

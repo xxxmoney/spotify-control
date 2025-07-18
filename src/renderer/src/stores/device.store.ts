@@ -116,7 +116,7 @@ export const useDeviceStore = defineStore('device', () => {
     devices.value = []
     try {
       isLoading.value = true
-      devices.value = await api.getDevices()
+      devices.value = await api.device.getDevices()
     } finally {
       isLoading.value = false
     }
