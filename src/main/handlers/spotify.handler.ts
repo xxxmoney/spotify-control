@@ -50,7 +50,8 @@ export async function authorise(): Promise<void> {
     clientId: process.env.SPOTIFY_CLIENT_ID || '',
     redirectUri: constants.SPOTIFY_REDIRECT_URL,
     scope: constants.SPOTIFY_SCOPES.join(' '),
-    responseType: constants.SPOTIFY_RESPONSE_TYPE
+    responseType: constants.SPOTIFY_RESPONSE_TYPE,
+    showDialog: constants.SPOTIFY_SHOW_DIALOG
   }
 
   const queryString = new URLSearchParams(toSnakeCase(params)).toString()

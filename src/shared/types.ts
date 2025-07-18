@@ -105,6 +105,7 @@ export interface SpotifyAuthParams {
   redirectUri: string
   scope: string
   responseType: string
+  showDialog: boolean
 }
 
 export interface SpotifyTokenResponse {
@@ -138,6 +139,7 @@ export interface Constants {
   SPOTIFY_RESPONSE_TYPE: string
   SPOTIFY_GRANT_TYPE: string
   SPOTIFY_TOKEN_RESPONSE_KEY: string
+  SPOTIFY_SHOW_DIALOG: boolean
   SPOTIFY_CODE_KEY: string
   SPOTIFY_TOKEN_CHECK_INTERVAL: number
 
