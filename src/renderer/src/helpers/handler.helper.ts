@@ -8,6 +8,51 @@ import {
 import { AxisActionTypeEnum, ButtonActionTypeEnum } from '@renderer/enums/device.enums'
 import { AXES, AXES_VALUE_RANGES } from '@renderer/constants/device.constants'
 
+async function handleButtonActions(buttonActions: ButtonAction[], button: string): Promise<void> {
+  if (buttonActions) {
+    for (const action of buttonActions) {
+      console.log(`Action '${ButtonActionTypeEnum[action.type]}' triggered for button '${button}'`)
+
+      switch (action.type) {
+        case ButtonActionTypeEnum.VolumeUp:
+          // TODO: handle volume up action
+          break
+        case ButtonActionTypeEnum.VolumeDown:
+          // TODO: handle volume down action
+          break
+        default:
+          console.warn(`Unknown action type: '${action.type}' for button '${button}'`)
+          break
+      }
+    }
+  }
+}
+
+async function handleAxisActions(
+  axisActions: AxisAction[],
+  axis: string,
+  value: number,
+  minimumValue: number,
+  maximumValue: number
+): Promise<void> {
+  for (const action of axisActions) {
+    console.log(
+      `Action '${AxisActionTypeEnum[action.type]}' triggered for axis '${axis}' with value '${value}' (min: '${minimumValue}', max: '${maximumValue}')`
+    )
+
+    const percent = (value - minimumValue) / (maximumValue - minimumValue)
+
+    switch (action.type) {
+      case AxisActionTypeEnum.Volume:
+        await window.api.spotifyApi.setVolume(percent)
+        break
+      default:
+        console.warn(`Unknown action type: '${action.type}' for trigger '${axis}'`)
+        break
+    }
+  }
+}
+
 export async function handleButtons(buttons: string[], binding: DeviceBindings): Promise<void> {
   const promises: Promise<void>[] = []
 
@@ -93,47 +138,4 @@ export async function handleThumbs(thumbs: DeviceThumbs, binding: DeviceBindings
   }
 
   await Promise.all(promises)
-}
-
-async function handleButtonActions(buttonActions: ButtonAction[], button: string): Promise<void> {
-  if (buttonActions) {
-    for (const action of buttonActions) {
-      console.log(`Action '${ButtonActionTypeEnum[action.type]}' triggered for button '${button}'`)
-
-      switch (action.type) {
-        case ButtonActionTypeEnum.VolumeUp:
-          // TODO: handle volume up action
-          break
-        case ButtonActionTypeEnum.VolumeDown:
-          // TODO: handle volume down action
-          break
-        default:
-          console.warn(`Unknown action type: '${action.type}' for button '${button}'`)
-          break
-      }
-    }
-  }
-}
-
-async function handleAxisActions(
-  axisActions: AxisAction[],
-  axis: string,
-  value: number,
-  minimumValue: number,
-  maximumValue: number
-): Promise<void> {
-  for (const action of axisActions) {
-    console.log(
-      `Action '${AxisActionTypeEnum[action.type]}' triggered for axis '${axis}' with value '${value}' (min: '${minimumValue}', max: '${maximumValue}')`
-    )
-
-    switch (action.type) {
-      case AxisActionTypeEnum.Volume:
-        // TODO: handle volume action
-        break
-      default:
-        console.warn(`Unknown action type: '${action.type}' for trigger '${axis}'`)
-        break
-    }
-  }
 }
