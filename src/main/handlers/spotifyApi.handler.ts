@@ -1,4 +1,4 @@
-import SpotifyWebApi from 'spotify-web-api-js'
+import SpotifyWebApi from 'spotify-web-api-node'
 import { ipcMain } from 'electron'
 import { nameof, prefixHandlerName } from '../../shared/helpers'
 import { ElectronUserAPI, ElectronUserAPI_SpotifyApi } from '../../shared/types'

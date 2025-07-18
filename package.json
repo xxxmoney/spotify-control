@@ -36,6 +36,7 @@
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.14.1",
+    "@types/spotify-web-api-node": "^5.0.11",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vueuse/core": "^13.2.0",
     "electron": "^35.1.5",
