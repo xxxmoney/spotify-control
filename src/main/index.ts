@@ -125,7 +125,7 @@ app.on('window-all-closed', () => {
 })
 
 // On opening as second instance - via protocol - which was registered above with `setAsDefaultProtocolClient`,
-app.on('second-instance', (_, commandLine) => {
+app.on('second-instance', async (_, commandLine) => {
   // Handle the protocol url from the command line (for Windows/Linux)
   const url = commandLine.pop()?.slice(0, -1)
 
@@ -147,7 +147,7 @@ app.on('second-instance', (_, commandLine) => {
     // Handle specific callbacks
     switch (callbackName) {
       case constants.PROTOCOL_HANDLERS.SPOTIFY_AUTH:
-        spotifyHandler.handleSpotifyAuthCallback(paramsObject)
+        await spotifyHandler.handleSpotifyAuthCallback(paramsObject)
         break
       default:
         console.warn(`No handler for callback: '${callbackName}'`)
