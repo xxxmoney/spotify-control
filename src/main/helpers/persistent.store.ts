@@ -4,7 +4,6 @@ const store = new Store()
 
 export function get<T>(key: string): T | undefined {
   const value = store.get(key)
-
   if (typeof value !== 'string') {
     return value as T | undefined
   }
