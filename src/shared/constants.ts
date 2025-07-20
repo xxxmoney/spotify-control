@@ -29,7 +29,7 @@ const SPOTIFY_SCOPES = [
 const SPOTIFY_REDIRECT_URL = `${APP_PROTOCOL}://spotify-auth`
 const SPOTIFY_RESPONSE_TYPE = 'code'
 // TODO: figure out better grant type, possibly this one (because the current one does not support most of the things): https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
-const SPOTIFY_GRANT_TYPE = 'client_credentials' // https://stackoverflow.com/questions/69506995/spotify-api-authorization-code-flow-failing-error-invalid-grant-error-d
+const SPOTIFY_GRANT_TYPE = 'authorization_code' // client_credentails passes, but doesn't work for remote control - https://stackoverflow.com/questions/69506995/spotify-api-authorization-code-flow-failing-error-invalid-grant-error-d
 const SPOTIFY_TOKEN_RESPONSE_KEY = 'spotify_token_response'
 const SPOTIFY_SHOW_DIALOG = true
 const SPOTIFY_CODE_KEY = 'code_token'
