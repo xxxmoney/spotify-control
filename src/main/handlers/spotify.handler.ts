@@ -31,6 +31,13 @@ export function register(): void {
   ipcMain.handle(
     prefixHandlerName(
       nameof<ElectronUserAPI>('spotify'),
+      nameof<ElectronUserAPI_Spotify>('isRefreshTokenValid')
+    ),
+    () => isRefreshTokenValid()
+  )
+  ipcMain.handle(
+    prefixHandlerName(
+      nameof<ElectronUserAPI>('spotify'),
       nameof<ElectronUserAPI_Spotify>('reacquireToken')
     ),
     () => reacquireToken()
@@ -89,6 +96,11 @@ export function isTokenValid(): boolean {
   const tokenResponse = getStoredToken()
 
   return tokenResponse ? DateTime.now() < tokenResponse.expiresAt : false
+}
+
+export function isRefreshTokenValid(): boolean {
+  const tokenResponse = getStoredToken()
+  return !!tokenResponse?.refreshToken
 }
 
 export async function reacquireToken(): Promise<void> {

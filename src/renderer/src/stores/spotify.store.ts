@@ -10,7 +10,10 @@ export const useSpotifyStore = defineStore('spotify', () => {
 
   async function authorize(): Promise<void> {
     // If code was already acquired, set authorised straight to true
-    if (await window.api.spotify.isCodeValid()) {
+    if (
+      (await window.api.spotify.isCodeValid()) &&
+      (await window.api.spotify.isRefreshTokenValid())
+    ) {
       isAuthorised.value = true
     } else {
       await window.api.spotify.authorise()

@@ -65,6 +65,13 @@ const api: ElectronUserAPI = {
           nameof<ElectronUserAPI_Spotify>('isTokenValid')
         )
       ),
+    isRefreshTokenValid: (): Promise<boolean> =>
+      ipcRenderer.invoke(
+        prefixHandlerName(
+          nameof<ElectronUserAPI>('spotify'),
+          nameof<ElectronUserAPI_Spotify>('isRefreshTokenValid')
+        )
+      ),
     reacquireToken: (): Promise<void> =>
       ipcRenderer.invoke(
         prefixHandlerName(

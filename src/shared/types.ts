@@ -27,6 +27,7 @@ export interface ElectronUserAPI_Spotify {
   authorise: () => Promise<void>
   isCodeValid: () => Promise<boolean>
   isTokenValid: () => Promise<boolean>
+  isRefreshTokenValid: () => Promise<boolean>
   reacquireToken: () => Promise<void>
 }
 export interface ElectronUserAPI_SpotifyApi {
