@@ -110,6 +110,7 @@ export interface SpotifyAuthParams {
 
 export interface SpotifyTokenResponse {
   accessToken: string
+  refreshToken: string
   expiresAt: DateTime
 }
 

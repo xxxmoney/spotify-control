@@ -1,4 +1,5 @@
-import * as memoryStore from '../helpers/memory.store'
+//import * as memoryStore from '../helpers/memory.store'
+import * as persistentStore from '../helpers/persistent.store'
 import * as urlHandler from './url.handler'
 import constants from '../../shared/constants'
 import {
@@ -68,7 +69,7 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
   const code = params['code']
 
   if (code) {
-    memoryStore.set(constants.SPOTIFY_CODE_KEY, code)
+    persistentStore.set(constants.SPOTIFY_CODE_KEY, code)
     console.log('Spotify code received')
 
     await acquireToken(code)
@@ -76,12 +77,12 @@ export async function handleSpotifyAuthCallback(params: { [p: string]: string })
 }
 
 export function isCodeValid(): boolean {
-  const code = memoryStore.get<string>(constants.SPOTIFY_CODE_KEY)
+  const code = persistentStore.get<string>(constants.SPOTIFY_CODE_KEY)
   return !!code
 }
 
 export function getStoredToken(): SpotifyTokenResponse | null {
-  return memoryStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY) ?? null
+  return persistentStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY) ?? null
 }
 
 export function isTokenValid(): boolean {
@@ -91,25 +92,31 @@ export function isTokenValid(): boolean {
 }
 
 export async function reacquireToken(): Promise<void> {
-  const code = memoryStore.get<string>(constants.SPOTIFY_CODE_KEY)
+  const token = getStoredToken()
 
-  if (!code) {
-    throw new Error('No valid Spotify code found in memory store')
+  if (!token?.refreshToken) {
+    throw new Error('No valid Spotify refresh token found in memory store')
   }
 
   console.log('Reacquiring Spotify token...')
-  await acquireToken(code)
+  await refreshToken(token.refreshToken)
 }
 
 async function acquireToken(code: string): Promise<void> {
   const tokenResponse = await fetchToken(code)
-  memoryStore.set(constants.SPOTIFY_TOKEN_RESPONSE_KEY, tokenResponse)
+  persistentStore.set(constants.SPOTIFY_TOKEN_RESPONSE_KEY, tokenResponse)
   console.log('Spotify token stored successfully')
+}
+
+async function refreshToken(refreshToken: string): Promise<void> {
+  const tokenResponse = await refetchToken(refreshToken)
+  persistentStore.set(constants.SPOTIFY_TOKEN_RESPONSE_KEY, tokenResponse)
+  console.log('Spotify token refreshed successfully')
 }
 
 async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
   const params = {
-    grantType: constants.SPOTIFY_GRANT_TYPE,
+    grantType: 'authorization_code',
     code: code,
     redirectUri: constants.SPOTIFY_REDIRECT_URL
   }
@@ -142,6 +149,46 @@ async function fetchToken(code: string): Promise<SpotifyTokenResponse> {
   const data = await response.json()
   return {
     accessToken: data['access_token'],
+    refreshToken: data['refresh_token'],
+    expiresAt: DateTime.now().plus({ seconds: data['expires_in'] as number })
+  }
+}
+
+async function refetchToken(refreshToken: string): Promise<SpotifyTokenResponse> {
+  const params = {
+    grantType: 'refresh_token',
+    refreshToken: refreshToken
+  }
+  const body = new URLSearchParams(toSnakeCase(params))
+
+  const authorizationBase64 = Buffer.from(
+    process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_CLIENT_SECRET
+  ).toString('base64')
+
+  console.log('Fetching refreshed Spotify token...')
+
+  const response = await fetch(constants.SPOTIFY_TOKEN_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${authorizationBase64}`
+    },
+    body: body
+  })
+
+  if (!response.ok) {
+    const responseText = await response.text()
+    throw new Error(
+      `Failed to fetch refreshed token: ${response.status} ${response.statusText} ${responseText}`
+    )
+  }
+
+  console.log('Spotify refreshed token fetched successfully')
+
+  const data = await response.json()
+  return {
+    accessToken: data['access_token'],
+    refreshToken: data['refresh_token'] ?? refreshToken,
     expiresAt: DateTime.now().plus({ seconds: data['expires_in'] as number })
   }
 }
