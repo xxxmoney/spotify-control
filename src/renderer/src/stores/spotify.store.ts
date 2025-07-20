@@ -29,7 +29,7 @@ export const useSpotifyStore = defineStore('spotify', () => {
         }
       } else {
         // When not authorised, check if the token is valid to set authorised
-        isAuthorised.value = await window.api.spotify.isTokenValid()
+        isAuthorised.value = await window.api.spotify.isRefreshTokenValid()
       }
     }, constants.SPOTIFY_TOKEN_CHECK_INTERVAL)
   }
