@@ -95,11 +95,12 @@ export async function reacquireToken(): Promise<void> {
   const token = getStoredToken()
 
   if (!token?.refreshToken) {
-    throw new Error('No valid Spotify refresh token found in memory store')
+    console.log('No refresh token found, starting authorisation process...')
+    await authorise()
+  } else {
+    console.log('Reacquiring Spotify token...')
+    await refreshToken(token.refreshToken)
   }
-
-  console.log('Reacquiring Spotify token...')
-  await refreshToken(token.refreshToken)
 }
 
 async function acquireToken(code: string): Promise<void> {
