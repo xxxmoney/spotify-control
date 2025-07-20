@@ -16,7 +16,7 @@ async function goToDevices(): Promise<void> {
 
 onMounted(async () => {
   if (!isAuthorised.value) {
-    await spotifyStore.authorise()
+    await spotifyStore.authorize()
 
     spotifyStore.startTokenCheckInterval()
   }
