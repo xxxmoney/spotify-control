@@ -81,8 +81,8 @@ export function isCodeValid(): boolean {
   return !!code
 }
 
-export function getStoredToken(): SpotifyTokenResponse | null {
-  return persistentStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY) ?? null
+export function getStoredToken(): SpotifyTokenResponse | undefined {
+  return persistentStore.get<SpotifyTokenResponse>(constants.SPOTIFY_TOKEN_RESPONSE_KEY)
 }
 
 export function isTokenValid(): boolean {
